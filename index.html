@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luyện Gõ Từ Vựng Tiếng Anh Lớp 6 - Typing Master</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .arcade-bg {
+      background-color: #0b0f19;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+    }
+    .glow-cyan {
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.35);
+    }
+    .glow-green {
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.45);
+    }
+    .glow-amber {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.45);
+    }
+    .text-glow-green {
+      text-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+    }
+    .text-glow-red {
+      text-shadow: 0 0 10px rgba(248, 113, 113, 0.8);
+    }
+    @keyframes pop-in {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop-in {
+      animation: pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes shake-anim {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .shake {
+      animation: shake-anim 0.3s ease-in-out both;
+    }
+    @keyframes float-up {
+      0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -55px) scale(1.25); }
+    }
+    .score-popup {
+      animation: float-up 0.85s ease-out forwards;
+    }
+    @keyframes countdown-bar {
+      0% { width: 100%; }
+      100% { width: 0%; }
+    }
+    .countdown-timer-bar {
+      animation: countdown-bar 4.5s linear forwards;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.5);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+
+<body class="arcade-bg h-screen w-screen overflow-hidden flex flex-col text-slate-100">
+
+  <!-- ==================== HEADER BAR ==================== -->
+  <header class="h-16 flex-none bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 sm:px-6 flex items-center justify-between z-30 shadow-md">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-sky-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+        <i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i>
+      </div>
+      <div>
+        <h1 class="text-base sm:text-lg font-extrabold tracking-wide bg-gradient-to-r from-emerald-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent flex items-center gap-2">
+          <span>English Word Drop · Lớp 6</span>
+          <span id="active-unit-badge" class="text-[11px] px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-normal hidden sm:inline-block">Unit 1</span>
+        </h1>
+        <p class="text-[11px] text-slate-400 font-medium flex items-center gap-2">
+          <span>Nghe phát âm & Luyện gõ từ vựng</span>
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span id="header-word-count" class="text-emerald-400 font-semibold font-mono-code">20 từ</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Header Controls: Results Record & HUD Stats -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Weak Words Vault Quick Button -->
+      <button id="btn-header-weak-vault" title="Sổ tay từ vựng yếu" class="px-3 py-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 transition flex items-center gap-1.5 text-xs font-bold shadow-sm">
+        <i data-lucide="book-x" class="w-4 h-4 text-rose-400"></i>
+        <span class="hidden sm:inline">Từ Hay Sai</span>
+        <span id="header-weak-count" class="px-1.5 py-0.2 rounded-full bg-rose-500/30 text-rose-200 text-[10px] font-mono-code font-bold">0</span>
+      </button>
+
+      <!-- Records / History Button -->
+      <button id="btn-show-history" title="Xem bảng thành tích" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition flex items-center gap-1.5 text-xs font-bold shadow-sm">
+        <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+        <span class="hidden sm:inline">Thành Tích</span>
+      </button>
+
+      <!-- Gameplay In-game HUD Group -->
+      <div id="hud-stats-group" class="hidden flex items-center gap-2 sm:gap-3">
+        <!-- Lives -->
+        <div class="flex items-center gap-1 bg-slate-950/70 px-2.5 py-1.5 rounded-xl border border-rose-500/30">
+          <div id="hearts-container" class="flex items-center gap-1"></div>
+        </div>
+
+        <!-- Combo Streak -->
+        <div class="flex items-center gap-1.5 bg-slate-950/70 px-2.5 py-1.5 rounded-xl border border-amber-500/30">
+          <i data-lucide="flame" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+          <span id="hud-combo" class="font-extrabold text-amber-300 font-mono-code text-xs sm:text-sm">x0</span>
+        </div>
+
+        <!-- Score -->
+        <div class="flex items-center gap-1.5 bg-slate-950/70 px-3 py-1.5 rounded-xl border border-emerald-500/30">
+          <i data-lucide="trophy" class="w-4 h-4 text-emerald-400 fill-emerald-400"></i>
+          <span id="hud-score" class="font-extrabold text-emerald-300 font-mono-code text-xs sm:text-sm">0</span>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-1 border-l border-slate-700/60 pl-2">
+          <button id="btn-toggle-pause" title="Tạm dừng" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition">
+            <i data-lucide="pause" class="w-4 h-4"></i>
+          </button>
+          <button id="btn-open-settings" title="Trở về cài đặt" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN VIEWPORT CONTAINER ==================== -->
+  <main class="flex-1 min-h-0 relative w-full overflow-hidden flex flex-col">
+
+    <!-- ==================== VIEW 1: UNIT SELECTION & SETTINGS ==================== -->
+    <div id="view-menu" class="absolute inset-0 z-20 flex items-center justify-center p-4 overflow-y-auto">
+      <div class="w-full max-w-4xl bg-slate-900/95 backdrop-blur-2xl border border-slate-700/80 rounded-2xl shadow-2xl p-5 sm:p-7 my-auto">
+        
+        <!-- Header of menu -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-700/80 pb-4 mb-4">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <i data-lucide="book-marked" class="w-6 h-6 text-emerald-400"></i>
+              Chọn Bài Học Luyện Gõ Tiếng Anh Lớp 6
+            </h2>
+            <p class="text-xs text-slate-400 mt-1">
+              Chọn một Unit trong chương trình hoặc dán danh sách từ tùy chỉnh từ Excel.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-practice-weak-words" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 flex items-center gap-1.5 transition">
+              <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-400"></i> Luyện Từ Hay Sai (<span id="menu-weak-count">0</span>)
+            </button>
+            <button id="btn-switch-custom" class="text-xs font-bold px-3 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 flex items-center gap-1.5 transition">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Dán từ Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- UNIT SELECTION GRID (12 Units + All Units) -->
+        <div id="unit-selection-container" class="mb-5">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+            Danh sách 12 Unit SGK Tiếng Anh Lớp 6 (Global Success):
+          </label>
+          <div id="unit-buttons-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 max-h-[260px] overflow-y-auto pr-1">
+            <!-- Populated dynamically by JavaScript -->
+          </div>
+        </div>
+
+        <!-- EXCEL / CUSTOM PASTE CONTAINER (Collapsible) -->
+        <div id="custom-paste-container" class="hidden mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <label for="vocab-input" class="text-xs font-bold uppercase tracking-wider text-slate-300">
+              Dán dữ liệu tùy chỉnh từ Excel (Cột 1: Tiếng Anh, Cột 2: Tiếng Việt, Cột 3: IPA, Cột 4: Câu ví dụ)
+            </label>
+            <span id="vocab-counter-badge" class="text-xs font-bold font-mono-code px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              0 từ
+            </span>
+          </div>
+          <textarea id="vocab-input" rows="6" spellcheck="false" placeholder="Ví dụ:&#10;schoolbag	cặp sách	/ˈskuːlbæɡ/	I put my books in the schoolbag.&#10;pencil case	hộp bút	/ˈpensl keɪs/	My pencil case is blue." class="w-full bg-slate-950 font-mono-code text-sm text-cyan-300 border border-slate-700 rounded-xl p-3 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/30 transition resize-none"></textarea>
+        </div>
+
+        <!-- GAME MODE SELECTOR -->
+        <div class="mb-5 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+          <div class="flex items-center justify-between mb-2.5">
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+              <i data-lucide="gamepad-2" class="w-4 h-4 text-cyan-400"></i>
+              Chọn chế độ chơi:
+            </label>
+            <span id="game-mode-tag" class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              Chiến Hạm Bắn Súng
+            </span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Mode 1: Shooter -->
+            <button type="button" id="btn-mode-shooter" class="mode-select-btn p-3 rounded-xl border-2 border-cyan-400 bg-cyan-950/50 text-left transition flex items-start gap-3 shadow-lg shadow-cyan-500/20">
+              <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="crosshair" class="w-5 h-5 text-cyan-400"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-cyan-300">Chiến Hạm Bắn Súng</span>
+                  <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold uppercase">Mới!</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 leading-snug">
+                  Gõ phím bắn đạn tiêu diệt từ rơi, tăng tốc khi qua 500 điểm, có từ thưởng hồi máu lá chắn!
+                </p>
+              </div>
+            </button>
+
+            <!-- Mode 2: Classic Drop -->
+            <button type="button" id="btn-mode-classic" class="mode-select-btn p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 text-left transition flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="headphones" class="w-5 h-5 text-indigo-400"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-slate-200">Luyện Nghe & Gõ Ẩn Chữ</span>
+                  <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 font-mono-code">Cổ điển</span>
+                </div>
+                <p class="text-[11px] text-slate-400 mt-1 leading-snug">
+                  Ẩn hoàn toàn mặt chữ, nghe phát âm qua loa, hiện nghĩa tiếng Việt và IPA sau vạch 40%.
+                </p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Speed & Practice Rules -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 mb-5">
+          <!-- Fall speed -->
+          <div>
+            <label class="block text-xs font-bold uppercase text-slate-400 mb-2">Tốc độ rơi của từ:</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button type="button" data-speed="slow" class="speed-opt py-2 px-3 text-xs font-extrabold rounded-lg border border-slate-700 text-slate-300 hover:text-white transition text-center">Chậm (20s)</button>
+              <button type="button" data-speed="medium" class="speed-opt py-2 px-3 text-xs font-extrabold rounded-lg border border-cyan-500 bg-cyan-500/20 text-cyan-300 transition text-center">Vừa (15s)</button>
+              <button type="button" data-speed="fast" class="speed-opt py-2 px-3 text-xs font-extrabold rounded-lg border border-slate-700 text-slate-300 hover:text-white transition text-center">Nhanh (10s)</button>
+            </div>
+          </div>
+
+          <!-- Shortcuts instructions -->
+          <div id="instructions-container" class="text-xs text-slate-300 flex flex-col justify-center space-y-1 bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+            <div class="flex items-center gap-1.5 text-amber-300 font-bold">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Luật chơi Bắn Súng:
+            </div>
+            <p>• Nhập ký tự đầu của từ bất kỳ để <strong>khóa mục tiêu</strong> và bắn đạn laser.</p>
+            <p>• Bắn đúng từ sẽ tiêu diệt và <strong>hiển thị nghĩa tiếng Việt</strong>.</p>
+            <p>• Từ có viền <strong class="text-amber-300">Vàng Kim</strong> là từ thưởng giúp <strong class="text-emerald-400">hồi 1 mạng phòng thủ</strong>!</p>
+            <p>• Từ chạm đáy sẽ được đưa vào hàng đợi để xuất hiện lại.</p>
+          </div>
+        </div>
+
+        <!-- Action row -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div class="text-xs text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="hard-drive-download" class="w-4 h-4 text-emerald-400"></i>
+            <span id="save-status-text">Đã kích hoạt lưu tự động offline bằng IndexedDB</span>
+          </div>
+          <button id="btn-start" class="w-full sm:w-auto px-10 py-3.5 rounded-xl font-black text-white text-base tracking-wide bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 shadow-xl shadow-cyan-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
+            <i data-lucide="play" class="w-5 h-5 fill-white"></i>
+            BẮT ĐẦU LUYỆN TẬP
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 2: GAMEPLAY ARENA ==================== -->
+    <div id="view-game" class="hidden absolute inset-0 z-10 flex flex-col justify-between">
+      
+      <!-- Falling Sandbox Arena -->
+      <div id="arena" class="relative w-full flex-1 overflow-hidden min-h-0">
+
+        <!-- 40% Marker Line -->
+        <div id="halfway-marker" class="absolute left-0 right-0 top-[40%] -translate-y-1/2 border-b-2 border-dashed border-cyan-500/30 flex items-center justify-end px-4 pointer-events-none z-0">
+          <span class="text-[11px] font-extrabold tracking-wider text-cyan-400/60 uppercase flex items-center gap-1.5 bg-slate-900/60 px-2 py-0.5 rounded border border-cyan-500/20">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i> Vạch 40%: Hiển thị nghĩa tiếng Việt & IPA
+          </span>
+        </div>
+
+        <!-- Bottom Danger Boundary -->
+        <div class="absolute left-0 right-0 bottom-0 h-2 bg-gradient-to-t from-rose-600/50 to-transparent border-b-2 border-rose-500 pointer-events-none z-0"></div>
+
+        <!-- THE FALLING WORD ACTOR -->
+        <div id="falling-actor" class="absolute pointer-events-none z-10 -translate-x-1/2 will-change-transform" style="top: 0px; left: 50%;">
+          
+          <div id="word-capsule" class="flex flex-col items-center bg-slate-900/95 backdrop-blur-xl border-2 border-cyan-400/80 px-6 sm:px-8 py-3.5 rounded-2xl shadow-2xl glow-cyan transition-all duration-100">
+            
+            <!-- Spaced repetition review badge -->
+            <div id="review-badge" class="hidden mb-1 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-extrabold border border-amber-400/50 flex items-center gap-1 shadow-sm">
+              <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-400"></i>
+              <span>Luyện lại từ chưa thuộc</span>
+            </div>
+
+            <!-- Pronunciation reminder -->
+            <div class="flex items-center gap-1.5 text-[11px] font-bold text-cyan-300 uppercase tracking-wider mb-2 opacity-90">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5 text-cyan-400 animate-pulse"></i>
+              <span>Phím Tab: Nghe lại</span>
+            </div>
+
+            <!-- Letter slots row (TẤT CẢ KÝ TỰ BỊ ẨN KHI CHƯA GÕ) -->
+            <div id="letter-slots-row" class="flex items-center justify-center gap-1 sm:gap-2"></div>
+
+            <!-- Vietnamese meaning & IPA card (appears after passing 40%) -->
+            <div id="vietnamese-card" class="hidden mt-2.5 flex flex-col items-center gap-1 transition-all">
+              <div class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/20 border border-amber-400/50 text-amber-300 text-xs sm:text-sm font-bold shadow-md">
+                <i data-lucide="languages" class="w-3.5 h-3.5 text-amber-400 flex-shrink-0"></i>
+                <span id="vietnamese-text">nghĩa tiếng Việt</span>
+              </div>
+              <div id="ipa-badge" class="px-2.5 py-0.5 rounded-lg bg-indigo-500/20 border border-indigo-400/40 text-indigo-300 text-[11px] font-mono-code font-semibold tracking-wider">
+                /aɪ piː eɪ/
+              </div>
+            </div>
+
+            <!-- Completion Banner: IPA + Example Context Sentence -->
+            <div id="success-context-card" class="hidden mt-2.5 px-4 py-3 rounded-2xl bg-slate-900/95 border-2 border-emerald-400 text-emerald-200 text-xs shadow-2xl animate-pop-in max-w-sm sm:max-w-md text-center">
+              <div class="flex items-center justify-between border-b border-emerald-500/30 pb-1.5 mb-2">
+                <div class="flex items-center gap-1.5 text-emerald-300 font-extrabold text-sm sm:text-base">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+                  <span id="success-word-text">word</span>
+                  <span id="success-ipa-text" class="text-xs font-mono-code text-indigo-300 font-semibold ml-1">/ipa/</span>
+                </div>
+                <span id="success-vi-text" class="text-[11px] text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-400/30">Nghĩa</span>
+              </div>
+              <div class="text-left mb-2.5">
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block mb-1 flex items-center gap-1">
+                  <i data-lucide="quote" class="w-3 h-3 text-emerald-400"></i> Câu ví dụ SGK:
+                </span>
+                <p id="success-example-text" class="text-xs sm:text-sm text-slate-100 font-medium leading-relaxed bg-slate-950/80 p-2.5 rounded-xl border border-slate-700/80 font-sans">
+                  "Example sentence here."
+                </p>
+              </div>
+
+              <!-- Interactive Controls & Countdown Bar -->
+              <div class="space-y-1.5">
+                <div class="w-full bg-slate-800 rounded-full h-1 overflow-hidden">
+                  <div id="example-countdown-bar" class="h-full bg-gradient-to-r from-emerald-400 to-cyan-400"></div>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 pt-0.5">
+                  <span class="flex items-center gap-1 text-[10px] text-cyan-300">
+                    <i data-lucide="volume-2" class="w-3 h-3 text-cyan-400"></i> Đang đọc câu mẫu
+                  </span>
+                  <button id="btn-next-word-instant" type="button" class="pointer-events-auto px-2.5 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-[11px] transition shadow-md flex items-center gap-1 active:scale-95">
+                    <span>Tiếp tục</span>
+                    <kbd class="px-1 py-0.2 bg-emerald-700/40 text-emerald-950 rounded text-[9px] font-mono-code font-black hidden sm:inline">Enter ➜</kbd>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="w-12 h-2.5 bg-cyan-500/30 blur-md rounded-full mx-auto mt-1"></div>
+        </div>
+
+        <!-- Floating points/particles layer -->
+        <div id="effects-layer" class="absolute inset-0 pointer-events-none z-20"></div>
+      </div>
+
+      <!-- Footer Arena Bar -->
+      <footer class="h-12 flex-none bg-slate-900/90 border-t border-slate-800 px-4 sm:px-6 flex items-center justify-between z-30">
+        <div class="flex items-center gap-2 text-xs text-slate-400">
+          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono-code text-cyan-300 font-bold">Gõ trực tiếp</span>
+          <span class="hidden sm:inline">Không cần Enter · Đúng chữ cuối sẽ tự hoàn thành</span>
+        </div>
+        <div class="flex items-center gap-3 text-xs">
+          <span class="text-slate-400">Bài: <strong id="hud-unit-name" class="text-indigo-300 font-semibold">Unit 1</strong></span>
+          <span class="text-slate-400">Còn lại: <strong id="hud-remaining-words" class="text-amber-300 font-mono-code font-bold">0 từ</strong></span>
+          <span class="text-slate-400">Độ chính xác:</span>
+          <span id="hud-accuracy" class="font-bold text-emerald-400 font-mono-code">100%</span>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- ==================== VIEW 2.5: SPACE TYPING SHOOTER ARENA ==================== -->
+    <div id="view-shooter" class="hidden absolute inset-0 z-10 flex flex-col justify-between overflow-hidden">
+      <!-- Shooter Sky Sandbox -->
+      <div id="shooter-arena" class="relative w-full flex-1 overflow-hidden min-h-0 bg-gradient-to-b from-slate-950 via-[#0a0e1c] to-[#0f172a]">
+        
+        <!-- Animated Stars Background Layer -->
+        <div class="absolute inset-0 opacity-40 pointer-events-none" style="background-image: radial-gradient(#60a5fa 1px, transparent 1px), radial-gradient(#38bdf8 1px, transparent 1px); background-size: 50px 50px, 90px 90px; background-position: 0 0, 25px 25px;"></div>
+
+        <!-- Level banner overlay -->
+        <div id="shooter-level-banner" class="absolute top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/40 backdrop-blur-md shadow-lg shadow-cyan-500/10 transition-all">
+          <i data-lucide="gauge" class="w-4 h-4 text-cyan-400"></i>
+          <span id="shooter-level-text" class="text-xs font-black uppercase tracking-wider text-cyan-300">Tốc Độ Ổn Định · Nhịp Rơi Thư Thái</span>
+          <span id="shooter-speed-multiplier" class="text-[10px] font-mono-code px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-200">1.0x</span>
+        </div>
+
+        <!-- Target Words Container -->
+        <div id="shooter-targets-layer" class="absolute inset-0 pointer-events-none z-10"></div>
+
+        <!-- Laser Projectiles & Explosion Canvas Layer -->
+        <canvas id="shooter-canvas" class="absolute inset-0 pointer-events-none z-20"></canvas>
+
+        <!-- Danger Defense Perimeter -->
+        <div class="absolute left-0 right-0 bottom-16 h-8 bg-gradient-to-t from-rose-500/20 to-transparent border-b-2 border-dashed border-rose-500/40 pointer-events-none z-0 flex items-end justify-between px-6 pb-1">
+          <span class="text-[10px] font-extrabold uppercase tracking-wider text-rose-400/80 flex items-center gap-1">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-rose-400"></i> Vạch phòng thủ căn cứ (5 lần chạm đáy = Thất thủ)
+          </span>
+          <span id="shooter-base-status" class="text-[10px] font-mono-code font-bold text-emerald-400 bg-slate-950/80 px-2 py-0.5 rounded border border-emerald-500/30">Lá chắn 100%</span>
+        </div>
+
+        <!-- Cannon Turret Base at Bottom -->
+        <div id="cannon-turret-wrap" class="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 pointer-events-none flex flex-col items-center">
+          <!-- Laser Barrel with rotation -->
+          <div id="cannon-barrel" class="w-4 h-12 bg-gradient-to-t from-cyan-600 via-cyan-400 to-white rounded-t-lg origin-bottom shadow-[0_0_20px_rgba(6,182,212,0.9)] transition-transform duration-75"></div>
+          <!-- Turret Base -->
+          <div class="w-16 h-8 bg-slate-900 border-2 border-cyan-400 rounded-t-2xl flex items-center justify-center shadow-xl shadow-cyan-500/30 relative">
+            <div class="w-6 h-6 rounded-full bg-cyan-500/30 border border-cyan-400 flex items-center justify-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-cyan-300 animate-ping"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Shooter Footer Arena Bar -->
+      <footer class="h-14 flex-none bg-slate-900/95 border-t border-slate-800 px-4 sm:px-6 flex items-center justify-between z-30">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1.5 text-xs">
+            <span class="text-slate-400">Mục tiêu đang nhắm:</span>
+            <span id="shooter-active-target-text" class="font-extrabold text-sm font-mono-code text-cyan-300 bg-slate-950 px-2.5 py-0.5 rounded-lg border border-cyan-500/40">
+              [ Chưa khóa mục tiêu ]
+            </span>
+          </div>
+          <button id="btn-shooter-voice-repeat" type="button" class="px-2.5 py-1 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 text-xs font-bold transition flex items-center gap-1" title="Phím Tab">
+            <i data-lucide="volume-2" class="w-3.5 h-3.5 text-indigo-400"></i> Nghe lại (Tab)
+          </button>
+        </div>
+        <div class="flex items-center gap-4 text-xs">
+          <div class="flex items-center gap-1 text-slate-400">
+            <span>Tiêu diệt:</span>
+            <strong id="shooter-killed-count" class="text-emerald-400 font-mono-code font-bold text-sm">0</strong>
+          </div>
+          <div class="flex items-center gap-1 text-slate-400">
+            <span>Chạm đáy:</span>
+            <strong id="shooter-missed-count" class="text-rose-400 font-mono-code font-bold text-sm">0 / 5</strong>
+          </div>
+          <div class="hidden sm:flex items-center gap-1 text-slate-400">
+            <span>Chế độ:</span>
+            <span id="shooter-next-level-pts" class="text-emerald-300 font-mono-code font-bold">Rèn luyện từ vựng vững chắc</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ==================== VIEW 3: PAUSED OVERLAY ==================== -->
+    <div id="modal-pause" class="hidden absolute inset-0 z-40 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-xs w-full text-center shadow-2xl">
+        <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="pause" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-black text-white mb-1">Đang Tạm Dừng</h3>
+        <p class="text-xs text-slate-400 mb-5">Nghỉ tay chốc lát rồi tiếp tục gõ nhé!</p>
+        <div class="flex flex-col gap-2">
+          <button id="btn-resume" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 font-bold text-sm text-white transition">
+            Tiếp Tục Chơi
+          </button>
+          <button id="btn-quit-to-menu" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 font-semibold text-sm text-slate-300 transition">
+            Chọn Bài Khác
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 4: GAME OVER OVERLAY ==================== -->
+    <div id="modal-gameover" class="hidden absolute inset-0 z-40 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-slate-900 border border-slate-700 p-6 sm:p-8 rounded-2xl max-w-md w-full text-center shadow-2xl">
+        <div id="gameover-icon-box" class="w-16 h-16 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-3 animate-bounce">
+          <i id="gameover-icon" data-lucide="heart-crack" class="w-8 h-8"></i>
+        </div>
+        <h3 id="gameover-title" class="text-2xl font-black text-white mb-1">Hoàn Thành Lượt Chơi!</h3>
+        <p class="text-xs text-slate-400 mb-4" id="gameover-unit-subtitle">Kết quả đã được ghi nhận vào bảng thành tích.</p>
+
+        <!-- Stats report -->
+        <div class="grid grid-cols-2 gap-3 bg-slate-950/80 p-4 rounded-xl border border-slate-800 mb-5 text-left">
+          <div>
+            <span class="text-xs text-slate-400">Điểm tổng kết:</span>
+            <p id="stat-final-score" class="text-2xl font-black text-emerald-400 font-mono-code">0</p>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400">Chuỗi Combo max:</span>
+            <p id="stat-final-combo" class="text-2xl font-black text-amber-400 font-mono-code">x0</p>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400">Từ gõ đúng:</span>
+            <p id="stat-final-correct" class="text-base font-bold text-emerald-300 font-mono-code">0 từ</p>
+          </div>
+          <div>
+            <span class="text-xs text-slate-400">Độ chính xác:</span>
+            <p id="stat-final-accuracy" class="text-base font-bold text-cyan-300 font-mono-code">100%</p>
+          </div>
+        </div>
+
+        <div class="flex gap-2.5">
+          <button id="btn-replay" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 font-black text-sm text-white shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-1.5">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Luyện Lại Unit
+          </button>
+          <button id="btn-gameover-settings" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-sm text-slate-300 transition">
+            Chọn Unit Khác
+          </button>
+          <button id="btn-gameover-view-history" class="p-3 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 transition" title="Xem bảng điểm">
+            <i data-lucide="award" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== VIEW 5: RESULTS & SCOREBOARD MODAL ==================== -->
+    <div id="modal-history" class="hidden absolute inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+      <div class="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-2xl w-full flex flex-col max-h-[85vh] shadow-2xl">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="award" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-black text-white">Bảng Thành Tích & Sổ Tay Từ Vựng</h3>
+              <p class="text-[11px] text-slate-400">Theo dõi tiến độ và khắc phục triệt để các từ hay gõ sai</p>
+            </div>
+          </div>
+          <button id="btn-close-history" class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Navigation Tabs: History vs Weak Words Vault -->
+        <div class="flex items-center gap-2 border-b border-slate-800 pt-3 pb-2">
+          <button id="tab-btn-records" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition flex items-center gap-1.5">
+            <i data-lucide="history" class="w-3.5 h-3.5"></i> Lịch Sử Luyện Gõ
+          </button>
+          <button id="tab-btn-weak-vault" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5">
+            <i data-lucide="book-x" class="w-3.5 h-3.5 text-rose-400"></i> Sổ Tay Từ Yếu (<span id="modal-weak-count" class="text-rose-300 font-mono-code">0</span>)
+          </button>
+        </div>
+
+        <!-- TAB CONTENT 1: RECORDS -->
+        <div id="tab-content-records" class="flex-1 flex flex-col min-h-0">
+          <div class="grid grid-cols-3 gap-2.5 my-3">
+            <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 font-semibold block">Tổng lượt luyện</span>
+              <span id="hist-total-sessions" class="text-xl font-black text-cyan-400 font-mono-code">0</span>
+            </div>
+            <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 font-semibold block">Điểm cao nhất</span>
+              <span id="hist-high-score" class="text-xl font-black text-emerald-400 font-mono-code">0</span>
+            </div>
+            <div class="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-center">
+              <span class="text-[11px] text-slate-400 font-semibold block">Từ gõ đúng</span>
+              <span id="hist-total-words" class="text-xl font-black text-amber-400 font-mono-code">0</span>
+            </div>
+          </div>
+
+          <!-- Scrollable Table -->
+          <div class="flex-1 overflow-y-auto min-h-[180px] border border-slate-800 rounded-xl bg-slate-950/50">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900 sticky top-0 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
+                <tr>
+                  <th class="p-3">Thời gian</th>
+                  <th class="p-3">Bài học (Unit)</th>
+                  <th class="p-3 text-right">Điểm</th>
+                  <th class="p-3 text-center">Đúng / Trượt</th>
+                  <th class="p-3 text-right">Chính xác</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body" class="divide-y divide-slate-800/60 font-mono-code text-slate-300">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+            <div id="history-empty-state" class="py-10 text-center text-slate-500 text-xs hidden">
+              Chưa có lượt chơi nào được ghi nhận. Hãy hoàn thành 1 bài luyện để ghi danh!
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 2: WEAK WORDS VAULT -->
+        <div id="tab-content-weak-vault" class="hidden flex-1 flex flex-col min-h-0 mt-3">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs text-slate-400">
+              Danh sách các từ học sinh từng bỏ lỡ hoặc gõ sai nhiều nhất kèm phiên âm IPA & câu mẫu:
+            </p>
+            <button id="btn-vault-start-practice" class="px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-extrabold text-xs transition shadow-md shadow-rose-500/20 flex items-center gap-1.5">
+              <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i> Luyện Tập Ngay
+            </button>
+          </div>
+
+          <div class="flex-1 overflow-y-auto min-h-[220px] border border-slate-800 rounded-xl bg-slate-950/50 p-2 space-y-2">
+            <div id="weak-words-list" class="space-y-2">
+              <!-- Dynamically populated weak word items -->
+            </div>
+            <div id="weak-vault-empty-state" class="py-12 text-center text-slate-500 text-xs">
+              <i data-lucide="check-circle" class="w-8 h-8 text-emerald-400 mx-auto mb-2 opacity-80"></i>
+              <p class="text-slate-300 font-bold text-sm">Tuyệt vời! Sổ tay đang trống.</p>
+              <p class="text-slate-500 text-xs mt-1">Bạn chưa để trượt từ vựng nào. Hãy tiếp tục duy trì phong độ!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer actions -->
+        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+          <button id="btn-clear-history" class="text-xs text-rose-400 hover:text-rose-300 font-semibold px-2 py-1 rounded hover:bg-rose-500/10 transition flex items-center gap-1">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Xóa dữ liệu lịch sử
+          </button>
+          <button id="btn-close-history-footer" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-xs text-slate-300 hover:text-white transition">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /* ========================================================
+       OFFLINE BROWSER STORAGE ENGINE (IndexedDB)
+       ======================================================== */
+    const LOCAL_DB_NAME = 'Grade6TypingStaticDB';
+    const LOCAL_DB_VERSION = 2;
+    const LOCAL_STORE_NAME = 'history_records';
+    const WEAK_STORE_NAME = 'weak_words_vault';
+
+    function getLocalDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) {
+          resolve(null);
+          return;
+        }
+        try {
+          const request = window.indexedDB.open(LOCAL_DB_NAME, LOCAL_DB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(LOCAL_STORE_NAME)) {
+              db.createObjectStore(LOCAL_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+            }
+            if (!db.objectStoreNames.contains(WEAK_STORE_NAME)) {
+              db.createObjectStore(WEAK_STORE_NAME, { keyPath: 'en' });
+            }
+          };
+          request.onsuccess = (e) => resolve(e.target.result);
+          request.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function loadSavedHistoryFromBrowser() {
+      const db = await getLocalDB();
+      if (!db) return [];
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction(LOCAL_STORE_NAME, 'readonly');
+          const store = tx.objectStore(LOCAL_STORE_NAME);
+          const req = store.getAll();
+          req.onsuccess = () => {
+            const list = req.result || [];
+            list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            resolve(list);
+          };
+          req.onerror = () => resolve([]);
+        } catch (e) {
+          resolve([]);
+        }
+      });
+    }
+
+    async function loadWeakWordsFromBrowser() {
+      const db = await getLocalDB();
+      if (!db) return [];
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction(WEAK_STORE_NAME, 'readonly');
+          const store = tx.objectStore(WEAK_STORE_NAME);
+          const req = store.getAll();
+          req.onsuccess = () => {
+            const list = req.result || [];
+            list.sort((a, b) => (b.missCount || 0) - (a.missCount || 0));
+            resolve(list);
+          };
+          req.onerror = () => resolve([]);
+        } catch (e) {
+          resolve([]);
+        }
+      });
+    }
+
+    async function recordWordMissedInVault(wordObj) {
+      if (!wordObj || !wordObj.en) return;
+      const db = await getLocalDB();
+      if (!db) return;
+      try {
+        const tx = db.transaction(WEAK_STORE_NAME, 'readwrite');
+        const store = tx.objectStore(WEAK_STORE_NAME);
+        const getReq = store.get(wordObj.en);
+        getReq.onsuccess = () => {
+          const existing = getReq.result;
+          if (existing) {
+            existing.missCount = (existing.missCount || 1) + 1;
+            existing.lastMissed = Date.now();
+            store.put(existing);
+          } else {
+            store.add({
+              en: wordObj.en,
+              vi: wordObj.vi || '',
+              ipa: wordObj.ipa || '',
+              ex: wordObj.ex || '',
+              missCount: 1,
+              lastMissed: Date.now()
+            });
+          }
+        };
+        tx.oncomplete = async () => {
+          window.weakWordsVault = await loadWeakWordsFromBrowser();
+          updateWeakCountersUI();
+        };
+      } catch (e) {
+        console.warn('Lỗi ghi sổ từ yếu:', e);
+      }
+    }
+
+    async function removeWordFromVault(enWord) {
+      const db = await getLocalDB();
+      if (!db) return;
+      try {
+        const tx = db.transaction(WEAK_STORE_NAME, 'readwrite');
+        const store = tx.objectStore(WEAK_STORE_NAME);
+        store.delete(enWord);
+        tx.oncomplete = async () => {
+          window.weakWordsVault = await loadWeakWordsFromBrowser();
+          updateWeakCountersUI();
+          renderWeakVaultUI();
+        };
+      } catch (e) {}
+    }
+    window.removeWordFromVault = removeWordFromVault;
+
+    async function saveRecordToBrowser(record) {
+      window.inMemoryHistory.unshift(record);
+      window.renderHistoryUI();
+
+      const db = await getLocalDB();
+      if (!db) return;
+      try {
+        const tx = db.transaction(LOCAL_STORE_NAME, 'readwrite');
+        const store = tx.objectStore(LOCAL_STORE_NAME);
+        store.add(record);
+      } catch (e) {
+        console.warn('Lưu vào IndexedDB:', e);
+      }
+    }
+
+    async function clearAllBrowserHistory() {
+      window.inMemoryHistory = [];
+      window.renderHistoryUI();
+
+      const db = await getLocalDB();
+      if (!db) return;
+      try {
+        const tx = db.transaction([LOCAL_STORE_NAME, WEAK_STORE_NAME], 'readwrite');
+        tx.objectStore(LOCAL_STORE_NAME).clear();
+        tx.objectStore(WEAK_STORE_NAME).clear();
+        tx.oncomplete = () => {
+          window.weakWordsVault = [];
+          updateWeakCountersUI();
+          renderWeakVaultUI();
+        };
+      } catch (e) {
+        console.warn('Xóa IndexedDB:', e);
+      }
+    }
+
+    window.saveResult = function(sessionData) {
+      saveRecordToBrowser({
+        ...sessionData,
+        createdAt: Date.now()
+      });
+    };
+  </script>
+
+  <script>
+    /* ========================================================
+       1. TOÀN BỘ 12 UNIT TIẾNG ANH LỚP 6 + PHIÊN ÂM IPA & CÂU VÍ DỤ NGỮ CẢNH (GLOBAL SUCCESS)
+       ======================================================== */
+    const GRADE_6_UNITS = [
+      {
+        id: "unit1",
+        title: "Unit 1: My New School",
+        short: "Unit 1",
+        desc: "Trường học mới & Đồ dùng học tập",
+        words: [
+          { en: "schoolbag", vi: "cặp sách, ba lô đi học", ipa: "/ˈskuːlbæɡ/", ex: "I put my new books into my schoolbag." },
+          { en: "pencil case", vi: "hộp bút, túi đựng bút", ipa: "/ˈpensl keɪs/", ex: "My pencil case has two pens and a ruler." },
+          { en: "pencil sharpener", vi: "cái gọt bút chì", ipa: "/ˈpensl ˌʃɑːpənə/", ex: "Can I borrow your pencil sharpener?" },
+          { en: "rubber", vi: "cục tẩy, gôm", ipa: "/ˈrʌbə/", ex: "Use a rubber to erase the mistake." },
+          { en: "calculator", vi: "máy tính cầm tay", ipa: "/ˈkælkjuleɪtə/", ex: "We use a calculator in maths class." },
+          { en: "compass", vi: "com-pa (vẽ đường tròn)", ipa: "/ˈkʌmpəs/", ex: "He draws a perfect circle with a compass." },
+          { en: "textbook", vi: "sách giáo khoa", ipa: "/ˈtekstbʊk/", ex: "Open your English textbook to page 10." },
+          { en: "notebook", vi: "vở ghi chép", ipa: "/ˈnəʊtbʊk/", ex: "She writes the new vocabulary in her notebook." },
+          { en: "uniform", vi: "đồng phục học sinh", ipa: "/ˈjuːnɪfɔːm/", ex: "We wear our school uniform on Mondays." },
+          { en: "classmate", vi: "bạn cùng lớp", ipa: "/ˈklɑːsmeɪt/", ex: "Lan is my friendly classmate." },
+          { en: "playground", vi: "sân chơi trường học", ipa: "/ˈpleɪɡraʊnd/", ex: "Students play badminton in the playground." },
+          { en: "library", vi: "thư viện", ipa: "/ˈlaɪbrəri/", ex: "There are thousands of books in the library." },
+          { en: "classroom", vi: "phòng học", ipa: "/ˈklɑːsruːm/", ex: "Our classroom is bright and clean." },
+          { en: "boarding school", vi: "trường nội trú", ipa: "/ˈbɔːdɪŋ skuːl/", ex: "He studies and lives at a boarding school." },
+          { en: "pocket money", vi: "tiền tiêu vặt", ipa: "/ˈpɒkɪt ˌmʌni/", ex: "My parents give me pocket money each week." },
+          { en: "homework", vi: "bài tập về nhà", ipa: "/ˈhəʊmwɜːk/", ex: "I usually do my homework after dinner." },
+          { en: "judo", vi: "môn võ judo", ipa: "/ˈdʒuːdəʊ/", ex: "Duy does judo twice a week." },
+          { en: "smart", vi: "thông minh, sáng dạ", ipa: "/smɑːt/", ex: "She is a very smart and active student." },
+          { en: "subject", vi: "môn học", ipa: "/ˈsʌbdʒɪkt/", ex: "English is my favourite subject." },
+          { en: "activity", vi: "hoạt động ngoại khóa", ipa: "/ækˈtɪvəti/", ex: "Outdoor activities help students stay healthy." }
+        ]
+      },
+      {
+        id: "unit2",
+        title: "Unit 2: My House",
+        short: "Unit 2",
+        desc: "Ngôi nhà & Đồ dùng gia đình",
+        words: [
+          { en: "living room", vi: "phòng khách", ipa: "/ˈlɪvɪŋ ruːm/", ex: "The family watches TV together in the living room." },
+          { en: "bedroom", vi: "phòng ngủ", ipa: "/ˈbedruːm/", ex: "My bedroom has a cosy bed and a desk." },
+          { en: "kitchen", vi: "nhà bếp", ipa: "/ˈkɪtʃɪn/", ex: "Mother is cooking delicious soup in the kitchen." },
+          { en: "bathroom", vi: "phòng tắm", ipa: "/ˈbɑːθruːm/", ex: "There is a mirror and a shower in the bathroom." },
+          { en: "hall", vi: "tiền sảnh, hành lang", ipa: "/hɔːl/", ex: "Leave your umbrella in the hall." },
+          { en: "balcony", vi: "ban công", ipa: "/ˈbælkəni/", ex: "There are green potted plants on the balcony." },
+          { en: "cupboard", vi: "tủ chén bát", ipa: "/ˈkʌbəd/", ex: "The bowls and plates are kept in the cupboard." },
+          { en: "wardrobe", vi: "tủ quần áo", ipa: "/ˈwɔːdrəʊb/", ex: "Hang your coat in the wardrobe." },
+          { en: "microwave", vi: "lò vi sóng", ipa: "/ˈmaɪkrəweɪv/", ex: "Heat the food in the microwave." },
+          { en: "fridge", vi: "tủ lạnh", ipa: "/frɪdʒ/", ex: "Keep fresh milk and fruit in the fridge." },
+          { en: "cooker", vi: "nồi cơm điện, bếp nấu", ipa: "/ˈkʊkə/", ex: "She cooks rice using an electric cooker." },
+          { en: "dishwasher", vi: "máy rửa bát đĩa", ipa: "/ˈdɪʃwɒʃə/", ex: "A dishwasher saves a lot of time after meals." },
+          { en: "sink", vi: "bồn rửa bát / bồn rửa mặt", ipa: "/sɪŋk/", ex: "Remember to wash your hands at the sink." },
+          { en: "chest of drawers", vi: "tủ có nhiều ngăn kéo", ipa: "/ˌtʃest əv ˈdrɔːz/", ex: "I keep my socks in the chest of drawers." },
+          { en: "sofa", vi: "ghế sô-pha", ipa: "/ˈsəʊfə/", ex: "Grandfather is reading newspapers on the sofa." },
+          { en: "country house", vi: "nhà ở vùng nông thôn", ipa: "/ˌkʌntri ˈhaʊs/", ex: "My grandparents live in a peaceful country house." },
+          { en: "stilt house", vi: "nhà sàn truyền thống", ipa: "/ˈstɪlt haʊs/", ex: "Many ethnic minorities live in stilt houses." },
+          { en: "apartment", vi: "căn hộ chung cư", ipa: "/əˈpɑːtmənt/", ex: "They live in a modern apartment in Ha Noi." },
+          { en: "furniture", vi: "đồ đạc nội thất", ipa: "/ˈfɜːnɪtʃə/", ex: "They bought wooden furniture for the new house." },
+          { en: "department store", vi: "cửa hàng bách hóa", ipa: "/dɪˈpɑːtmənt stɔː/", ex: "We bought clothes at the department store." }
+        ]
+      },
+      {
+        id: "unit3",
+        title: "Unit 3: My Friends",
+        short: "Unit 3",
+        desc: "Ngoại hình & Tính cách bạn bè",
+        words: [
+          { en: "confident", vi: "tự tin", ipa: "/ˈkɒnfɪdənt/", ex: "She is confident when speaking in front of the class." },
+          { en: "hard-working", vi: "chăm chỉ, cần cù", ipa: "/ˌhɑːd ˈwɜːkɪŋ/", ex: "Nam is a hard-working student who gets high marks." },
+          { en: "patient", vi: "kiên nhẫn, nhẫn nại", ipa: "/ˈpeɪʃnt/", ex: "Our teacher is very patient with all pupils." },
+          { en: "caring", vi: "chu đáo, biết quan tâm", ipa: "/ˈkeərɪŋ/", ex: "She is a caring friend who always helps others." },
+          { en: "creative", vi: "sáng tạo", ipa: "/kriˈeɪtɪv/", ex: "An is very creative and draws fantastic pictures." },
+          { en: "friendly", vi: "thân thiện, cởi mở", ipa: "/ˈfrendli/", ex: "The new boy is very friendly to everyone." },
+          { en: "sporty", vi: "yêu thích thể thao", ipa: "/ˈspɔːti/", ex: "Minh is sporty; he plays basketball every day." },
+          { en: "curious", vi: "tò mò, thích tìm tòi", ipa: "/ˈkjʊəriəs/", ex: "He is curious about the natural world." },
+          { en: "active", vi: "năng động, hăng hái", ipa: "/ˈæktɪv/", ex: "She takes part in many active outdoor games." },
+          { en: "kind", vi: "tốt bụng, nhân hậu", ipa: "/kaɪnd/", ex: "It was very kind of you to help me." },
+          { en: "clever", vi: "khôn khéo, thông minh", ipa: "/ˈklevə/", ex: "He solved the math puzzle with a clever idea." },
+          { en: "reliable", vi: "đáng tin cậy", ipa: "/rɪˈlaɪəbl/", ex: "Mai is reliable; she always keeps her promises." },
+          { en: "helpful", vi: "hay giúp đỡ người khác", ipa: "/ˈhelpfl/", ex: "He is very helpful around the house." },
+          { en: "chubby", vi: "mũm mĩm, phúng phính", ipa: "/ˈtʃʌbi/", ex: "The baby has lovely chubby cheeks." },
+          { en: "straight hair", vi: "mái tóc thẳng", ipa: "/streɪt heə/", ex: "Hoa has black eyes and long straight hair." },
+          { en: "curly hair", vi: "mái tóc xoăn", ipa: "/ˈkɜːli heə/", ex: "Peter has natural curly hair." },
+          { en: "blonde hair", vi: "mái tóc vàng hoe", ipa: "/blɒnd heə/", ex: "The girl with blonde hair is from England." },
+          { en: "appearance", vi: "ngoại hình, diện mạo", ipa: "/əˈpɪərəns/", ex: "Never judge a person by their appearance." },
+          { en: "personality", vi: "tính cách con người", ipa: "/ˌpɜːsəˈnæləti/", ex: "She has an cheerful and outgoing personality." }
+        ]
+      },
+      {
+        id: "unit4",
+        title: "Unit 4: My Neighbourhood",
+        short: "Unit 4",
+        desc: "Khu phố & Địa điểm lân cận",
+        words: [
+          { en: "neighbourhood", vi: "khu phố, vùng lân cận", ipa: "/ˈneɪbəhʊd/", ex: "There are lots of trees in my neighbourhood." },
+          { en: "square", vi: "quảng trường", ipa: "/skweə/", ex: "People gather in the central square for events." },
+          { en: "cathedral", vi: "nhà thờ lớn", ipa: "/kəˈθiːdrəl/", ex: "Notre Dame Cathedral is an impressive landmark." },
+          { en: "memorial", vi: "đài tưởng niệm", ipa: "/məˈmɔːriəl/", ex: "They placed flowers at the war memorial." },
+          { en: "palace", vi: "cung điện hoàng gia", ipa: "/ˈpæləs/", ex: "The royal family used to live in this palace." },
+          { en: "art gallery", vi: "phòng triển lãm nghệ thuật", ipa: "/ˈɑːt ˌɡæləri/", ex: "We enjoyed famous paintings at the art gallery." },
+          { en: "temple", vi: "ngôi đền, miếu", ipa: "/ˈtempl/", ex: "Many visitors pray for peace at the ancient temple." },
+          { en: "bakery", vi: "tiệm bánh mì", ipa: "/ˈbeɪkəri/", ex: "The bakery sells delicious warm bread and cakes." },
+          { en: "pharmacy", vi: "hiệu thuốc tây", ipa: "/ˈfɑːməsi/", ex: "You can buy medical supplies at the pharmacy." },
+          { en: "railway station", vi: "nhà ga xe lửa", ipa: "/ˈreɪlweɪ ˌsteɪʃn/", ex: "The train leaves the railway station at 7 AM." },
+          { en: "suburb", vi: "vùng ngoại ô", ipa: "/ˈsʌbɜːb/", ex: "Life in the suburb is quieter than in the city centre." },
+          { en: "workshop", vi: "xưởng thủ công", ipa: "/ˈwɜːkʃɒp/", ex: "Tourists visited a traditional pottery workshop." },
+          { en: "crowded", vi: "đông đúc, chen chúc", ipa: "/ˈkraʊdɪd/", ex: "The shopping mall is very crowded on Sundays." },
+          { en: "peaceful", vi: "thanh bình, yên tĩnh", ipa: "/ˈpiːsfl/", ex: "The countryside offers a peaceful life." },
+          { en: "convenient", vi: "thuận tiện, tiện lợi", ipa: "/kənˈviːniənt/", ex: "Living near a supermarket is very convenient." },
+          { en: "narrow", vi: "chật hẹp", ipa: "/ˈnærəʊ/", ex: "Cars cannot enter this narrow street." },
+          { en: "polluted", vi: "bị ô nhiễm", ipa: "/pəˈluːtɪd/", ex: "Smoke from factories makes the air polluted." },
+          { en: "historic", vi: "mang tính lịch sử lâu đời", ipa: "/hɪˈstɒrɪk/", ex: "Hoi An is a famous historic town." }
+        ]
+      },
+      {
+        id: "unit5",
+        title: "Unit 5: Natural Wonders of Viet Nam",
+        short: "Unit 5",
+        desc: "Kỳ quan thiên nhiên Việt Nam",
+        words: [
+          { en: "waterfall", vi: "thác nước", ipa: "/ˈwɔːtəfɔːl/", ex: "Ban Gioc is a majestic waterfall in Viet Nam." },
+          { en: "desert", vi: "sa mạc cát", ipa: "/ˈdezət/", ex: "A desert is very dry with little rain." },
+          { en: "valley", vi: "thung lũng", ipa: "/ˈvæli/", ex: "Muong Hoa is a picturesque valley in Sa Pa." },
+          { en: "cave", vi: "hang động", ipa: "/keɪv/", ex: "Son Doong is the largest natural cave in the world." },
+          { en: "island", vi: "hòn đảo", ipa: "/ˈaɪlənd/", ex: "Phu Quoc is an attractive holiday island." },
+          { en: "forest", vi: "khu rừng rậm", ipa: "/ˈfɒrɪst/", ex: "Wild animals live safely in the tropical forest." },
+          { en: "mountain", vi: "ngọn núi cao", ipa: "/ˈmaʊntən/", ex: "Fansipan is the highest mountain in Viet Nam." },
+          { en: "lake", vi: "hồ nước", ipa: "/leɪk/", ex: "Hoan Kiem Lake is located in the heart of Ha Noi." },
+          { en: "river", vi: "dòng sông", ipa: "/ˈrɪvə/", ex: "The Red River flows gently through the city." },
+          { en: "rock", vi: "phiến đá, tảng đá lớn", ipa: "/rɒk/", ex: "Ha Long Bay features thousands of limestone rocks." },
+          { en: "backpack", vi: "ba-lô du lịch leo núi", ipa: "/ˈbækpæk/", ex: "Pack essential clothes in your backpack." },
+          { en: "sleeping bag", vi: "túi ngủ dã ngoại", ipa: "/ˈsliːpɪŋ bæɡ/", ex: "A warm sleeping bag is necessary for camping." },
+          { en: "plaster", vi: "băng dán vết thương", ipa: "/ˈplɑːstə/", ex: "Put a plaster on your cut finger." },
+          { en: "suncream", vi: "kem chống nắng", ipa: "/ˈsʌnkriːm/", ex: "Apply suncream to protect your skin at the beach." },
+          { en: "scissors", vi: "cái kéo", ipa: "/ˈsɪzəz/", ex: "Be careful when cutting paper with sharp scissors." },
+          { en: "wonder", vi: "kỳ quan thiên nhiên", ipa: "/ˈwʌndə/", ex: "Ha Long Bay is a UNESCO World Wonder." },
+          { en: "amazing", vi: "kinh ngạc, tuyệt vời", ipa: "/əˈmeɪzɪŋ/", ex: "The view from the mountain top was amazing." },
+          { en: "cuisine", vi: "ẩm thực, món ăn truyền thống", ipa: "/kwɪˈziːn/", ex: "Hue is famous for its delicious royal cuisine." }
+        ]
+      },
+      {
+        id: "unit6",
+        title: "Unit 6: Our Tet Holiday",
+        short: "Unit 6",
+        desc: "Tết cổ truyền & Phong tục Việt Nam",
+        words: [
+          { en: "celebrate", vi: "ăn mừng, kỷ niệm ngày lễ", ipa: "/ˈselɪbreɪt/", ex: "Vietnamese people celebrate Tet in spring." },
+          { en: "fireworks", vi: "pháo hoa đêm giao thừa", ipa: "/ˈfaɪəwɜːks/", ex: "Spectacular fireworks light up the sky at midnight." },
+          { en: "lucky money", vi: "tiền lì xì đầu năm", ipa: "/ˌlʌki ˈmʌni/", ex: "Children receive lucky money in red envelopes." },
+          { en: "calendar", vi: "quyển lịch năm mới", ipa: "/ˈkælɪndə/", ex: "Hang the new calendar on the living room wall." },
+          { en: "relative", vi: "bà con, họ hàng", ipa: "/ˈrelətɪv/", ex: "We visit our grandparents and relatives during Tet." },
+          { en: "pagoda", vi: "ngôi chùa", ipa: "/pəˈɡəʊdə/", ex: "People go to the pagoda to pray for good health." },
+          { en: "peach blossom", vi: "hoa đào ngày Tết", ipa: "/ˈpiːtʃ ˌblɒsəm/", ex: "Pink peach blossoms are popular in northern Viet Nam." },
+          { en: "apricot blossom", vi: "hoa mai vàng", ipa: "/ˈeɪprɪkɒt ˌblɒsəm/", ex: "Yellow apricot blossoms bloom brightly in the south." },
+          { en: "wish", vi: "lời chúc ước đầu năm", ipa: "/wɪʃ/", ex: "Send best wishes to your family and teachers." },
+          { en: "family gathering", vi: "sum họp gia đình", ipa: "/ˈfæməli ˌɡæðərɪŋ/", ex: "Tet is the best time for family gatherings." },
+          { en: "decorate", vi: "trang hoàng nhà cửa", ipa: "/ˈdekəreɪt/", ex: "We decorate our house with lights and flowers." },
+          { en: "first footer", vi: "người xông đất đầu năm", ipa: "/ˌfɜːst ˈfʊtə/", ex: "The first footer brings good luck to the family." },
+          { en: "midnight", vi: "nửa đêm giao thừa", ipa: "/ˈmɪdnaɪt/", ex: "The New Year begins exactly at midnight." },
+          { en: "special food", vi: "món ăn đặc sản ngày Tết", ipa: "/ˌspeʃl ˈfuːd/", ex: "Banh chung is a traditional special food at Tet." },
+          { en: "clean", vi: "lau dọn sạch sẽ", ipa: "/kliːn/", ex: "We clean the house thoroughly before Tet." },
+          { en: "rubbish", vi: "rác thải", ipa: "/ˈrʌbɪʃ/", ex: "Do not throw rubbish on the floor during the first day." }
+        ]
+      },
+      {
+        id: "unit7",
+        title: "Unit 7: Television",
+        short: "Unit 7",
+        desc: "Truyền hình & Các chương trình giải trí",
+        words: [
+          { en: "animated film", vi: "phim hoạt hình thiếu nhi", ipa: "/ˈænɪmeɪtɪd fɪlm/", ex: "Kids love watching animated films at the weekend." },
+          { en: "documentary", vi: "phim tài liệu", ipa: "/ˌdɒkjuˈmentri/", ex: "The nature documentary shows rare wild animals." },
+          { en: "newsreader", vi: "người đọc bản tin thời sự", ipa: "/ˈnjuːzˌriːdə/", ex: "The newsreader speaks clearly on the 7 PM news." },
+          { en: "schedule", vi: "lịch phát sóng chương trình", ipa: "/ˈʃedjuːl/", ex: "Check the TV schedule to know when the film starts." },
+          { en: "comedian", vi: "diễn viên hài kịch", ipa: "/kəˈmiːdiən/", ex: "The famous comedian made the entire audience laugh." },
+          { en: "comedy", vi: "vở hài kịch vui nhộn", ipa: "/ˈkɒmədi/", ex: "We watched a funny comedy last night." },
+          { en: "educational", vi: "mang tính giáo dục bổ ích", ipa: "/ˌedʒuˈkeɪʃənl/", ex: "This quiz programme is entertaining and educational." },
+          { en: "viewer", vi: "khán giả xem truyền hình", ipa: "/ˈvjuːə/", ex: "Millions of viewers watched the live football match." },
+          { en: "game show", vi: "trò chơi truyền hình", ipa: "/ˈɡeɪm ʃəʊ/", ex: "Contestants answer difficult questions on the game show." },
+          { en: "channel", vi: "kênh truyền hình", ipa: "/ˈtʃænl/", ex: "VTV7 is a popular education channel for children." },
+          { en: "character", vi: "nhân vật trong phim", ipa: "/ˈkærəktə/", ex: "Mickey Mouse is a world-famous cartoon character." },
+          { en: "remote control", vi: "điều khiển tivi từ xa", ipa: "/rɪˌməʊt kənˈtrəʊl/", ex: "Use the remote control to change channels." },
+          { en: "programme", vi: "chương trình truyền hình", ipa: "/ˈprəʊɡræm/", ex: "What is your favourite TV programme?" },
+          { en: "weather forecast", vi: "bản tin dự báo thời tiết", ipa: "/ˈweðə ˌfɔːkɑːst/", ex: "The weather forecast predicts rain tomorrow." }
+        ]
+      },
+      {
+        id: "unit8",
+        title: "Unit 8: Sports and Games",
+        short: "Unit 8",
+        desc: "Thể thao & Trò chơi vận động",
+        words: [
+          { en: "badminton", vi: "môn cầu lông", ipa: "/ˈbædmɪntən/", ex: "They play badminton in the school yard." },
+          { en: "basketball", vi: "môn bóng rổ", ipa: "/ˈbɑːskɪtbɔːl/", ex: "Tall students often excel at playing basketball." },
+          { en: "volleyball", vi: "môn bóng chuyền", ipa: "/ˈvɒlibɔːl/", ex: "We played beach volleyball during our summer holiday." },
+          { en: "skateboarding", vi: "môn trượt ván đường phố", ipa: "/ˈskeɪtbɔːdɪŋ/", ex: "Skateboarding requires good balance and practice." },
+          { en: "karate", vi: "môn võ karate", ipa: "/kəˈrɑːti/", ex: "He practices karate to improve his self-defence." },
+          { en: "racket", vi: "cái vợt (cầu lông, tennis)", ipa: "/ˈrækɪt/", ex: "He bought a lightweight tennis racket." },
+          { en: "goggles", vi: "kính bơi chuyên dụng", ipa: "/ˈɡɒɡlz/", ex: "Always wear goggles to protect your eyes when swimming." },
+          { en: "gymnasium", vi: "nhà thi đấu, phòng tập", ipa: "/dʒɪmˈneɪziəm/", ex: "Students do gymnastics inside the gymnasium." },
+          { en: "champion", vi: "nhà vô địch giải đấu", ipa: "/ˈtʃæmpiən/", ex: "Our team trained hard and became the champion." },
+          { en: "marathon", vi: "cuộc chạy đua ma-ra-tông", ipa: "/ˈmærəθən/", ex: "Thousands of runners joined the city marathon." },
+          { en: "cycling", vi: "môn đua xe đạp", ipa: "/ˈsaɪklɪŋ/", ex: "Cycling in the morning keeps you fit and energetic." },
+          { en: "table tennis", vi: "môn bóng bàn", ipa: "/ˈteɪbl ˌtenɪs/", ex: "They have a friendly table tennis match." },
+          { en: "equipment", vi: "dụng cụ, trang thiết bị thể thao", ipa: "/ɪˈkwɪpmənt/", ex: "The school provides modern sports equipment." },
+          { en: "fit", vi: "thân hình thon gọn, khỏe khoắn", ipa: "/fɪt/", ex: "Eating vegetables and jogging keeps you fit." },
+          { en: "football match", vi: "trận đấu bóng đá sôi động", ipa: "/ˈfʊtbɔːl mætʃ/", ex: "We cheered loudly during the exciting football match." }
+        ]
+      },
+      {
+        id: "unit9",
+        title: "Unit 9: Cities of the World",
+        short: "Unit 9",
+        desc: "Các thành phố lớn trên thế giới",
+        words: [
+          { en: "capital", vi: "thủ đô một quốc gia", ipa: "/ˈkæpɪtl/", ex: "Ha Noi is the beautiful capital of Viet Nam." },
+          { en: "continent", vi: "châu lục trên địa cầu", ipa: "/ˈkɒntɪnənt/", ex: "Asia is the largest continent in the world." },
+          { en: "landmark", vi: "công trình biểu tượng", ipa: "/ˈlændmɑːk/", ex: "The Eiffel Tower is a famous landmark in Paris." },
+          { en: "postcard", vi: "tấm bưu thiếp kỷ niệm", ipa: "/ˈpəʊstkɑːd/", ex: "She sent me a scenic postcard from London." },
+          { en: "famous", vi: "nổi tiếng, được nhiều người biết", ipa: "/ˈfeɪməs/", ex: "Sydney is famous for its iconic Opera House." },
+          { en: "modern", vi: "hiện đại, tân tiến", ipa: "/ˈmɒdn/", ex: "Tokyo has a very modern transport system." },
+          { en: "tower", vi: "tòa tháp cao", ipa: "/ˈtaʊə/", ex: "Big Ben is a historic clock tower in the UK." },
+          { en: "skyscraper", vi: "tòa nhà chọc trời cao tầng", ipa: "/ˈskaɪskreɪpə/", ex: "New York is famous for its stunning skyscrapers." },
+          { en: "palace", vi: "hoàng cung, cung điện", ipa: "/ˈpæləs/", ex: "Buckingham Palace is the official residence of the King." },
+          { en: "symbol", vi: "biểu tượng đại diện", ipa: "/ˈsɪmbl/", ex: "The Merlion is the national symbol of Singapore." },
+          { en: "creature", vi: "sinh vật kỳ thú", ipa: "/ˈkriːtʃə/", ex: "The mythical creature has a lion head and fish body." },
+          { en: "delicious", vi: "thơm ngon miệng", ipa: "/dɪˈlɪʃəs/", ex: "Street food in Da Nang is very delicious." },
+          { en: "rainy", vi: "thời tiết nhiều mưa", ipa: "/ˈreɪni/", ex: "Remember your raincoat on rainy days." },
+          { en: "royal", vi: "thuộc về hoàng gia", ipa: "/ˈrɔɪəl/", ex: "They visited the royal gardens in London." }
+        ]
+      },
+      {
+        id: "unit10",
+        title: "Unit 10: Houses in the Future",
+        short: "Unit 10",
+        desc: "Ngôi nhà thông minh tương lai",
+        words: [
+          { en: "smart home", vi: "ngôi nhà thông minh", ipa: "/ˈsmɑːt həʊm/", ex: "In a smart home, appliances are controlled by voice." },
+          { en: "cottage", vi: "nhà tranh miền quê", ipa: "/ˈkɒtɪdʒ/", ex: "They spent the summer in a small quiet cottage." },
+          { en: "apartment", vi: "căn hộ chung cư tiện nghi", ipa: "/əˈpɑːtmənt/", ex: "Our future apartment will have solar windows." },
+          { en: "villa", vi: "biệt thự rộng lớn", ipa: "/ˈvɪlə/", ex: "The luxury villa has a private swimming pool." },
+          { en: "solar energy", vi: "năng lượng mặt trời sạch", ipa: "/ˌsəʊlər ˈenədʒi/", ex: "Solar energy helps protect our planet's environment." },
+          { en: "appliance", vi: "thiết bị điện gia dụng", ipa: "/əˈplaɪəns/", ex: "Modern appliances make housework much easier." },
+          { en: "robot", vi: "người máy hỗ trợ", ipa: "/ˈrəʊbɒt/", ex: "A helper robot can cook meals and wash clothes." },
+          { en: "automatic", vi: "vận hành tự động", ipa: "/ˌɔːtəˈmætɪk/", ex: "The automatic doors open when you step closer." },
+          { en: "space station", vi: "trạm không gian vũ trụ", ipa: "/ˈspeɪs ˌsteɪʃn/", ex: "Astronauts live and conduct research in a space station." },
+          { en: "houseboat", vi: "nhà nổi trên mặt nước", ipa: "/ˈhaʊsbəʊt/", ex: "Floating markets have many families living on houseboats." },
+          { en: "wireless", vi: "công nghệ không dây", ipa: "/ˈwaɪələs/", ex: "Wireless technology connects all home devices." },
+          { en: "ocean", vi: "đại dương mênh mông", ipa: "/ˈəʊʃn/", ex: "Some future cities might float on the vast ocean." },
+          { en: "helicopter", vi: "máy bay trực thăng", ipa: "/ˈhelɪkɒptə/", ex: "The rooftop has a landing pad for a helicopter." }
+        ]
+      },
+      {
+        id: "unit11",
+        title: "Unit 11: Our Greener World",
+        short: "Unit 11",
+        desc: "Bảo vệ môi trường sống xanh",
+        words: [
+          { en: "recycle", vi: "tái chế phế liệu cũ", ipa: "/ˌriːˈsaɪkl/", ex: "We should recycle paper, glass, and metal cans." },
+          { en: "reduce", vi: "giảm thiểu tiêu thụ rác", ipa: "/rɪˈdjuːs/", ex: "Turn off lights to reduce electricity consumption." },
+          { en: "reuse", vi: "tái sử dụng nhiều lần", ipa: "/ˌriːˈjuːz/", ex: "Reuse plastic bottles to water potted plants." },
+          { en: "environment", vi: "môi trường sinh thái", ipa: "/ɪnˈvaɪrənmənt/", ex: "Planting trees helps protect the green environment." },
+          { en: "pollute", vi: "gây ô nhiễm nguồn nước/khí", ipa: "/pəˈluːt/", ex: "Never dump chemical waste to pollute the river." },
+          { en: "plastic bag", vi: "túi ni-lông khó phân hủy", ipa: "/ˌplæstɪk ˈbæɡ/", ex: "Bring reusable cloth bags instead of plastic bags." },
+          { en: "container", vi: "hộp chứa, đồ đựng đồ ăn", ipa: "/kənˈteɪnə/", ex: "Store leftovers in a reusable food container." },
+          { en: "recycling bin", vi: "thùng phân loại rác tái chế", ipa: "/ˌriːˈsaɪklɪŋ bɪn/", ex: "Drop empty aluminium cans into the green recycling bin." },
+          { en: "refillable", vi: "bình có thể rót nước dùng lại", ipa: "/ˌriːˈfɪləbl/", ex: "Bring a refillable water bottle to school." },
+          { en: "carton", vi: "hộp giấy đựng sữa/đồ", ipa: "/ˈkɑːtn/", ex: "Do not litter; flatten milk cartons before recycling." },
+          { en: "electricity", vi: "nguồn điện sinh hoạt", ipa: "/ɪˌlekˈtrɪsəti/", ex: "Save electricity by unplugging unused chargers." },
+          { en: "rubbish", vi: "rác thải sinh hoạt", ipa: "/ˈrʌbɪʃ/", ex: "Put your rubbish in the nearest dustbin." },
+          { en: "breathe", vi: "hít thở không khí trong lành", ipa: "/briːð/", ex: "Fresh morning air is wonderful to breathe." }
+        ]
+      },
+      {
+        id: "unit12",
+        title: "Unit 12: Robots",
+        short: "Unit 12",
+        desc: "Người máy & Hoạt động đời sống",
+        words: [
+          { en: "water the plants", vi: "tưới nước cho cây cảnh", ipa: "/ˈwɔːtə ðə plɑːnts/", ex: "The domestic robot can water the plants every morning." },
+          { en: "iron the clothes", vi: "là, ủi thẳng nếp quần áo", ipa: "/ˈaɪən ðə kləʊðz/", ex: "He learned how to iron the clothes properly." },
+          { en: "guard the house", vi: "trông nom, bảo vệ nhà cửa", ipa: "/ɡɑːd ðə haʊs/", ex: "Security guard robots protect the house all night." },
+          { en: "do the dishes", vi: "rửa bát chén sau bữa ăn", ipa: "/duː ðə ˈdɪʃɪz/", ex: "My brother and I take turns to do the dishes." },
+          { en: "make the bed", vi: "dọn dẹp xếp phẳng giường", ipa: "/meɪk ðə bed/", ex: "Always make the bed right after you wake up." },
+          { en: "do the laundry", vi: "giặt giũ phơi đồ quần áo", ipa: "/duː ðə ˈlɔːndri/", ex: "Modern washing machines help us do the laundry easily." },
+          { en: "recognize", vi: "nhận ra, nhận dạng", ipa: "/ˈrekəɡnaɪz/", ex: "Smart cameras can recognize human faces quickly." },
+          { en: "voice", vi: "giọng nói con người", ipa: "/vɔɪs/", ex: "The robot responds politely to my mother's voice." },
+          { en: "planet", vi: "hành tinh trong vũ trụ", ipa: "/ˈplænɪt/", ex: "Space robots explore distant planets like Mars." },
+          { en: "useful", vi: "hữu ích, tiện lợi", ipa: "/ˈjuːsfl/", ex: "Robots are extremely useful in modern factories." },
+          { en: "servant", vi: "người hầu, quản gia", ipa: "/ˈsɜːvənt/", ex: "In science fiction, robots serve as faithful servants." },
+          { en: "daily", vi: "hoạt động diễn ra hàng ngày", ipa: "/ˈdeɪli/", ex: "Brushing teeth is part of our healthy daily routine." }
+        ]
+      }
+    ];
+
+    window.inMemoryHistory = [];
+    window.weakWordsVault = [];
+    let selectedUnitId = "unit1";
+    let isCustomMode = false;
+    let isWeakMode = false;
+    let currentGameMode = 'shooter'; // 'shooter' | 'classic'
+    let currentWordList = [...GRADE_6_UNITS[0].words];
+    let selectedSpeed = 'medium';
+    let successAdvanceTimer = null;
+
+    const MAX_LIVES = 5;
+    let state = {
+      status: 'idle',
+      score: 0,
+      combo: 0,
+      maxCombo: 0,
+      lives: MAX_LIVES,
+      correctCount: 0,
+      missedCount: 0,
+      keystrokesTotal: 0,
+      keystrokesCorrect: 0,
+      wordIndex: 0,
+      wordQueue: [],
+      currentWord: null,
+      typed: '',
+      posY: 0,
+      posX: 50,
+      hasPassed40: false,
+      isWordEnding: false,
+      isShowingSuccessCard: false,
+      lastFrameTime: 0,
+      rafId: null
+    };
+
+    /* ========================================================
+       SHOOTER GAME STATE & ENGINE
+       ======================================================== */
+    let shooterState = {
+      activeTargets: [],     // Array of active falling word targets
+      currentTargetId: null, // Locked target id being typed
+      targetTyped: '',       // Typed portion of current target
+      lasers: [],            // Flying laser projectiles
+      particles: [],         // Explosions
+      floatingTexts: [],     // Score & Vietnamese meaning popups
+      nextSpawnTime: 0,
+      currentLevel: 1,
+      speedMultiplier: 1.0,
+      turretAngle: 0
+    };
+
+    function shuffleArray(arr) {
+      const copy = arr.map(item => ({ ...item }));
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    let audioContext = null;
+
+    function initAudio() {
+      if (!audioContext) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) audioContext = new AudioCtx();
+      }
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    }
+
+    function playTone(freq, type, duration, gainVal = 0.1) {
+      if (!audioContext) return;
+      try {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.start();
+        osc.stop(audioContext.currentTime + duration);
+      } catch (err) {}
+    }
+
+    function sfxKeyCorrect() { playTone(680, 'sine', 0.08, 0.09); }
+    function sfxKeyWrong() { playTone(180, 'sawtooth', 0.16, 0.15); }
+    function sfxWordComplete() {
+      if (!audioContext) return;
+      playTone(523.25, 'triangle', 0.1, 0.12);
+      setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.12), 70);
+      setTimeout(() => playTone(783.99, 'triangle', 0.1, 0.14), 140);
+      setTimeout(() => playTone(1046.50, 'triangle', 0.22, 0.16), 210);
+    }
+    function sfxHeartLost() {
+      if (!audioContext) return;
+      playTone(320, 'sawtooth', 0.15, 0.18);
+      setTimeout(() => playTone(210, 'sawtooth', 0.3, 0.22), 120);
+    }
+
+    /* Laser Shooter Sound Effects */
+    function sfxLaserFire() {
+      if (!audioContext) return;
+      try {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(880, audioContext.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(220, audioContext.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.12, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.start();
+        osc.stop(audioContext.currentTime + 0.08);
+      } catch (e) {}
+    }
+
+    function sfxTargetExplosion() {
+      if (!audioContext) return;
+      try {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(160, audioContext.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 0.25);
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        osc.start();
+        osc.stop(audioContext.currentTime + 0.25);
+      } catch (e) {}
+    }
+
+    function sfxShieldHeal() {
+      if (!audioContext) return;
+      playTone(440, 'triangle', 0.1, 0.15);
+      setTimeout(() => playTone(660, 'triangle', 0.12, 0.18), 80);
+      setTimeout(() => playTone(880, 'triangle', 0.2, 0.22), 160);
+    }
+
+    let englishVoice = null;
+
+    function initSpeechVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      if (!voices || voices.length === 0) return;
+
+      // Ưu tiên 1: Giọng Anh - Anh (en-GB) tự nhiên (Natural / Online / Google UK)
+      englishVoice =
+        voices.find(v => (v.lang === 'en-GB' || v.lang === 'en_GB') && (v.name.includes('Natural') || v.name.includes('Google UK') || v.name.includes('Online'))) ||
+        // Ưu tiên 2: Các giọng Anh - Anh tiêu chuẩn (Libby, Sonia, Ryan, Hazel, George, Daniel...)
+        voices.find(v => v.lang === 'en-GB' || v.lang === 'en_GB') ||
+        // Ưu tiên 3: Giọng Úc/Ireland (gần với âm Anh-Anh hơn Anh-Mỹ)
+        voices.find(v => v.lang === 'en-AU' || v.lang === 'en-IE') ||
+        // Dự phòng cuối cùng nếu máy không có gói giọng Anh
+        voices.find(v => v.lang.startsWith('en')) ||
+        null;
+    }
+
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = initSpeechVoices;
+      initSpeechVoices();
+    }
+
+    function speakWord(text) {
+      if (!('speechSynthesis' in window) || !text) return;
+      try {
+        // Đảm bảo đã nạp danh sách giọng nếu trình duyệt load chậm
+        if (!englishVoice) initSpeechVoices();
+
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+
+        if (englishVoice) {
+          utter.voice = englishVoice;
+          utter.lang = englishVoice.lang;
+        } else {
+          utter.lang = 'en-GB';
+        }
+
+        // Tốc độ 0.88 giúp học sinh lớp 6 nghe rõ phụ âm cuối và trọng âm như băng SGK
+        utter.rate = 0.88;
+        utter.pitch = 1.0;
+
+        window.speechSynthesis.speak(utter);
+      } catch (err) {
+        console.warn('Lỗi phát âm:', err);
+      }
+    }
+
+    const viewMenu = document.getElementById('view-menu');
+    const viewGame = document.getElementById('view-game');
+    const viewShooter = document.getElementById('view-shooter');
+    const hudStatsGroup = document.getElementById('hud-stats-group');
+    const modalPause = document.getElementById('modal-pause');
+    const modalGameOver = document.getElementById('modal-gameover');
+    const modalHistory = document.getElementById('modal-history');
+
+    /* Shooter View DOM Elements */
+    const shooterArena = document.getElementById('shooter-arena');
+    const shooterTargetsLayer = document.getElementById('shooter-targets-layer');
+    const shooterCanvas = document.getElementById('shooter-canvas');
+    const cannonBarrel = document.getElementById('cannon-barrel');
+    const shooterLevelText = document.getElementById('shooter-level-text');
+    const shooterSpeedMultiplier = document.getElementById('shooter-speed-multiplier');
+    const shooterBaseStatus = document.getElementById('shooter-base-status');
+    const shooterActiveTargetText = document.getElementById('shooter-active-target-text');
+    const shooterKilledCount = document.getElementById('shooter-killed-count');
+    const shooterMissedCount = document.getElementById('shooter-missed-count');
+    const shooterNextLevelPts = document.getElementById('shooter-next-level-pts');
+    const btnShooterVoiceRepeat = document.getElementById('btn-shooter-voice-repeat');
+    const btnModeShooter = document.getElementById('btn-mode-shooter');
+    const btnModeClassic = document.getElementById('btn-mode-classic');
+    const gameModeTag = document.getElementById('game-mode-tag');
+    const instructionsContainer = document.getElementById('instructions-container');
+
+    const unitButtonsGrid = document.getElementById('unit-buttons-grid');
+    const customPasteContainer = document.getElementById('custom-paste-container');
+    const unitSelectionContainer = document.getElementById('unit-selection-container');
+    const btnSwitchCustom = document.getElementById('btn-switch-custom');
+    const vocabInput = document.getElementById('vocab-input');
+    const vocabCounterBadge = document.getElementById('vocab-counter-badge');
+    const headerWordCount = document.getElementById('header-word-count');
+    const activeUnitBadge = document.getElementById('active-unit-badge');
+    const hudUnitName = document.getElementById('hud-unit-name');
+    const btnStart = document.getElementById('btn-start');
+    const speedButtons = document.querySelectorAll('.speed-opt');
+
+    const arena = document.getElementById('arena');
+    const fallingActor = document.getElementById('falling-actor');
+    const wordCapsule = document.getElementById('word-capsule');
+    const letterSlotsRow = document.getElementById('letter-slots-row');
+    const vietnameseCard = document.getElementById('vietnamese-card');
+    const vietnameseText = document.getElementById('vietnamese-text');
+    const ipaBadge = document.getElementById('ipa-badge');
+    const successContextCard = document.getElementById('success-context-card');
+    const successWordText = document.getElementById('success-word-text');
+    const successIpaText = document.getElementById('success-ipa-text');
+    const successViText = document.getElementById('success-vi-text');
+    const successExampleText = document.getElementById('success-example-text');
+    const exampleCountdownBar = document.getElementById('example-countdown-bar');
+    const btnNextWordInstant = document.getElementById('btn-next-word-instant');
+    const effectsLayer = document.getElementById('effects-layer');
+
+    const heartsContainer = document.getElementById('hearts-container');
+    const hudCombo = document.getElementById('hud-combo');
+    const hudScore = document.getElementById('hud-score');
+    const hudAccuracy = document.getElementById('hud-accuracy');
+    const hudRemainingWords = document.getElementById('hud-remaining-words');
+    const reviewBadge = document.getElementById('review-badge');
+
+    const btnHeaderWeakVault = document.getElementById('btn-header-weak-vault');
+    const headerWeakCount = document.getElementById('header-weak-count');
+    const menuWeakCount = document.getElementById('menu-weak-count');
+    const modalWeakCount = document.getElementById('modal-weak-count');
+    const btnPracticeWeakWords = document.getElementById('btn-practice-weak-words');
+    const btnVaultStartPractice = document.getElementById('btn-vault-start-practice');
+    const tabBtnRecords = document.getElementById('tab-btn-records');
+    const tabBtnWeakVault = document.getElementById('tab-btn-weak-vault');
+    const tabContentRecords = document.getElementById('tab-content-records');
+    const tabContentWeakVault = document.getElementById('tab-content-weak-vault');
+    const weakWordsList = document.getElementById('weak-words-list');
+    const weakVaultEmptyState = document.getElementById('weak-vault-empty-state');
+
+    const btnTogglePause = document.getElementById('btn-toggle-pause');
+    const btnOpenSettings = document.getElementById('btn-open-settings');
+    const btnResume = document.getElementById('btn-resume');
+    const btnQuitToMenu = document.getElementById('btn-quit-to-menu');
+    const btnReplay = document.getElementById('btn-replay');
+    const btnGameOverSettings = document.getElementById('btn-gameover-settings');
+    const btnShowHistory = document.getElementById('btn-show-history');
+    const btnCloseHistory = document.getElementById('btn-close-history');
+    const btnCloseHistoryFooter = document.getElementById('btn-close-history-footer');
+    const btnGameOverViewHistory = document.getElementById('btn-gameover-view-history');
+    const btnClearHistory = document.getElementById('btn-clear-history');
+
+    function renderUnitButtons() {
+      unitButtonsGrid.innerHTML = '';
+
+      const allBtn = document.createElement('button');
+      allBtn.type = 'button';
+      allBtn.className = `p-3 rounded-xl border text-left transition flex flex-col justify-between ${
+        selectedUnitId === 'all' && !isCustomMode && !isWeakMode
+          ? 'bg-gradient-to-br from-indigo-950 to-purple-950/80 border-purple-500 shadow-lg shadow-purple-500/20' 
+          : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+      }`;
+      const totalAllWords = GRADE_6_UNITS.reduce((acc, u) => acc + u.words.length, 0);
+      allBtn.innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="font-extrabold text-xs ${selectedUnitId === 'all' && !isCustomMode && !isWeakMode ? 'text-purple-300' : 'text-slate-300'}">Tổng Hợp 12 Unit</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 font-mono-code">${totalAllWords} từ</span>
+        </div>
+        <p class="text-[10px] text-slate-400 mt-1 line-clamp-1">Toàn bộ kho từ vựng lớp 6</p>
+      `;
+      allBtn.addEventListener('click', () => {
+        isCustomMode = false;
+        isWeakMode = false;
+        selectedUnitId = 'all';
+        customPasteContainer.classList.add('hidden');
+        unitSelectionContainer.classList.remove('opacity-50');
+        btnSwitchCustom.innerHTML = '<i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Dán từ Excel';
+        renderUnitButtons();
+        updateCurrentWordList();
+        lucide.createIcons();
+      });
+      unitButtonsGrid.appendChild(allBtn);
+
+      GRADE_6_UNITS.forEach(unit => {
+        const isSelected = (selectedUnitId === unit.id && !isCustomMode && !isWeakMode);
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = `p-3 rounded-xl border text-left transition flex flex-col justify-between ${
+          isSelected 
+            ? 'bg-cyan-950/70 border-cyan-400 text-cyan-200 shadow-lg shadow-cyan-500/20 ring-1 ring-cyan-400' 
+            : 'bg-slate-950/60 border-slate-800 hover:border-slate-700 text-slate-300'
+        }`;
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-xs ${isSelected ? 'text-cyan-300' : 'text-white'}">${unit.short}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-800 font-mono-code text-slate-400">${unit.words.length} từ</span>
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1 line-clamp-1">${unit.desc}</p>
+        `;
+        card.addEventListener('click', () => {
+          isCustomMode = false;
+          isWeakMode = false;
+          selectedUnitId = unit.id;
+          customPasteContainer.classList.add('hidden');
+          unitSelectionContainer.classList.remove('opacity-50');
+          btnSwitchCustom.innerHTML = '<i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Dán từ Excel';
+          renderUnitButtons();
+          updateCurrentWordList();
+          lucide.createIcons();
+        });
+        unitButtonsGrid.appendChild(card);
+      });
+    }
+
+    function updateWeakCountersUI() {
+      const count = (window.weakWordsVault || []).length;
+      headerWeakCount.textContent = count;
+      menuWeakCount.textContent = count;
+      modalWeakCount.textContent = count;
+
+      if (count === 0) {
+        btnPracticeWeakWords.classList.add('opacity-50', 'pointer-events-none');
+        btnVaultStartPractice.classList.add('opacity-50', 'pointer-events-none');
+      } else {
+        btnPracticeWeakWords.classList.remove('opacity-50', 'pointer-events-none');
+        btnVaultStartPractice.classList.remove('opacity-50', 'pointer-events-none');
+      }
+    }
+
+    function updateCurrentWordList() {
+      if (isWeakMode) {
+        currentWordList = (window.weakWordsVault || []).map(w => ({ ...w, isReview: true }));
+        activeUnitBadge.textContent = "Từ hay sai";
+        hudUnitName.textContent = "Từ hay sai";
+      } else if (isCustomMode) {
+        currentWordList = parseVocabString(vocabInput.value);
+        activeUnitBadge.textContent = "Từ tự chọn";
+        hudUnitName.textContent = "Tự chọn";
+      } else if (selectedUnitId === 'all') {
+        currentWordList = GRADE_6_UNITS.flatMap(u => u.words);
+        activeUnitBadge.textContent = "Tổng hợp 12 Unit";
+        hudUnitName.textContent = "Tổng hợp";
+      } else {
+        const found = GRADE_6_UNITS.find(u => u.id === selectedUnitId) || GRADE_6_UNITS[0];
+        currentWordList = [...found.words];
+        activeUnitBadge.textContent = found.short;
+        hudUnitName.textContent = found.short;
+      }
+
+      headerWordCount.textContent = `${currentWordList.length} từ`;
+      if (currentWordList.length === 0) {
+        btnStart.disabled = true;
+        btnStart.classList.add('opacity-40', 'pointer-events-none');
+      } else {
+        btnStart.disabled = false;
+        btnStart.classList.remove('opacity-40', 'pointer-events-none');
+      }
+    }
+
+    function parseVocabString(str) {
+      const lines = str.split('\n');
+      const result = [];
+      for (let rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line) continue;
+        let en = '', vi = '', ipa = '', ex = '';
+        if (line.includes('\t')) {
+          const parts = line.split('\t');
+          en = parts[0];
+          vi = parts[1] || '---';
+          ipa = parts[2] || '';
+          ex = parts[3] || '';
+        } else if (line.includes(':')) {
+          const parts = line.split(':');
+          en = parts[0];
+          vi = parts.slice(1).join(':');
+        } else if (line.includes(',')) {
+          const parts = line.split(',');
+          en = parts[0];
+          vi = parts.slice(1).join(',');
+        } else {
+          en = line;
+          vi = '---';
+        }
+        en = en.trim().toLowerCase();
+        vi = vi.trim();
+        if (en.length > 0) result.push({ en, vi, ipa, ex });
+      }
+      return result;
+    }
+
+    function startWeakWordsPracticeSession() {
+      if (!window.weakWordsVault || window.weakWordsVault.length === 0) return;
+      isWeakMode = true;
+      isCustomMode = false;
+      modalHistory.classList.add('hidden');
+      updateCurrentWordList();
+      startGame();
+    }
+
+    btnPracticeWeakWords.addEventListener('click', startWeakWordsPracticeSession);
+    btnVaultStartPractice.addEventListener('click', startWeakWordsPracticeSession);
+
+    btnSwitchCustom.addEventListener('click', () => {
+      isCustomMode = !isCustomMode;
+      isWeakMode = false;
+      if (isCustomMode) {
+        customPasteContainer.classList.remove('hidden');
+        unitSelectionContainer.classList.add('opacity-50');
+        btnSwitchCustom.innerHTML = '<i data-lucide="book-open" class="w-3.5 h-3.5"></i> Dùng 12 Unit Lớp 6';
+        if (!vocabInput.value.trim()) {
+          vocabInput.value = GRADE_6_UNITS[0].words.map(w => `${w.en}\t${w.vi}\t${w.ipa}\t${w.ex}`).join('\n');
+        }
+      } else {
+        customPasteContainer.classList.add('hidden');
+        unitSelectionContainer.classList.remove('opacity-50');
+        btnSwitchCustom.innerHTML = '<i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Dán từ Excel';
+      }
+      renderUnitButtons();
+      updateCurrentWordList();
+      lucide.createIcons();
+    });
+
+    /* Game Mode Toggle Handlers */
+    function setGameMode(mode) {
+      currentGameMode = mode;
+      if (mode === 'shooter') {
+        btnModeShooter.className = 'mode-select-btn p-3 rounded-xl border-2 border-cyan-400 bg-cyan-950/50 text-left transition flex items-start gap-3 shadow-lg shadow-cyan-500/20';
+        btnModeClassic.className = 'mode-select-btn p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 text-left transition flex items-start gap-3';
+        gameModeTag.textContent = 'Chiến Hạm Bắn Súng';
+        gameModeTag.className = 'text-[11px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30';
+        
+        instructionsContainer.innerHTML = `
+          <div class="flex items-center gap-1.5 text-amber-300 font-bold">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Luật chơi Bắn Súng:
+          </div>
+          <p>• Nhập ký tự đầu của từ bất kỳ để <strong>khóa mục tiêu</strong> và bắn đạn laser.</p>
+          <p>• Bắn đúng từ sẽ tiêu diệt và <strong>hiển thị nghĩa tiếng Việt</strong>.</p>
+          <p>• Từ có viền <strong class="text-amber-300">Vàng Kim</strong> là từ thưởng giúp <strong class="text-emerald-400">hồi 1 mạng phòng thủ</strong>!</p>
+          <p>• Từ chạm đáy sẽ được đưa vào hàng đợi để xuất hiện lại.</p>
+        `;
+      } else {
+        btnModeClassic.className = 'mode-select-btn p-3 rounded-xl border-2 border-indigo-400 bg-indigo-950/50 text-left transition flex items-start gap-3 shadow-lg shadow-indigo-500/20';
+        btnModeShooter.className = 'mode-select-btn p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-slate-700 text-left transition flex items-start gap-3';
+        gameModeTag.textContent = 'Luyện Nghe & Gõ Cổ Điển';
+        gameModeTag.className = 'text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30';
+        
+        instructionsContainer.innerHTML = `
+          <div class="flex items-center gap-1.5 text-amber-300 font-bold">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Quy tắc luyện nghe & gõ:
+          </div>
+          <p>• Từ xuất hiện sẽ <strong>ẩn hoàn toàn chữ</strong>, chỉ hiện gạch chân.</p>
+          <p>• Nhấn <kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-600 font-mono-code text-emerald-300 font-bold">Tab</kbd>: Nghe lại phát âm.</p>
+          <p>• Nhấn <kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-600 font-mono-code text-rose-300 font-bold">Backspace</kbd>: Sửa ký tự khi gõ sai.</p>
+        `;
+      }
+      lucide.createIcons();
+    }
+
+    btnModeShooter.addEventListener('click', () => setGameMode('shooter'));
+    btnModeClassic.addEventListener('click', () => setGameMode('classic'));
+
+    vocabInput.addEventListener('input', () => {
+      const parsed = parseVocabString(vocabInput.value);
+      vocabCounterBadge.textContent = `${parsed.length} từ`;
+      if (isCustomMode) updateCurrentWordList();
+    });
+
+    speedButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        speedButtons.forEach(b => {
+          b.classList.remove('border-cyan-500', 'bg-cyan-500/20', 'text-cyan-300');
+          b.classList.add('border-slate-700', 'text-slate-300');
+        });
+        btn.classList.add('border-cyan-500', 'bg-cyan-500/20', 'text-cyan-300');
+        btn.classList.remove('border-slate-700', 'text-slate-300');
+        selectedSpeed = btn.dataset.speed;
+      });
+    });
+
+    function renderHearts() {
+      heartsContainer.innerHTML = '';
+      for (let i = 0; i < MAX_LIVES; i++) {
+        const heartIcon = document.createElement('i');
+        heartIcon.setAttribute('data-lucide', 'heart');
+        if (i < state.lives) {
+          heartIcon.className = 'w-4 h-4 text-rose-500 fill-rose-500 scale-100 transition-all';
+        } else {
+          heartIcon.className = 'w-4 h-4 text-slate-700 fill-slate-800 scale-90 opacity-40 transition-all';
+        }
+        heartsContainer.appendChild(heartIcon);
+      }
+      lucide.createIcons();
+    }
+
+    function updateHUD() {
+      hudScore.textContent = state.score;
+      hudCombo.textContent = `x${state.combo}`;
+      renderHearts();
+
+      const remainingCount = (state.wordQueue ? state.wordQueue.length : 0) + (state.currentWord && !state.isWordEnding ? 1 : 0);
+      if (hudRemainingWords) {
+        hudRemainingWords.textContent = `${remainingCount} từ`;
+      }
+
+      if (state.keystrokesTotal === 0) {
+        hudAccuracy.textContent = '100%';
+      } else {
+        const acc = Math.round((state.keystrokesCorrect / state.keystrokesTotal) * 100);
+        hudAccuracy.textContent = `${Math.max(0, acc)}%`;
+      }
+    }
+
+    function renderLetterSlots(revealAnswer = false) {
+      letterSlotsRow.innerHTML = '';
+      if (!state.currentWord) return;
+
+      const target = state.currentWord.en;
+      const typed = state.typed;
+
+      for (let i = 0; i < target.length; i++) {
+        const targetChar = target[i];
+        const isSpace = (targetChar === ' ');
+
+        const slot = document.createElement('div');
+        slot.className = 'flex flex-col items-center justify-end min-w-[20px] sm:min-w-[28px]';
+
+        const glyph = document.createElement('div');
+        glyph.className = 'font-mono-code text-2xl sm:text-3xl font-extrabold flex items-center justify-center transition-all h-8';
+
+        const underline = document.createElement('div');
+        underline.className = 'w-full h-1 sm:h-1.5 rounded-full mt-1 transition-all';
+
+        if (revealAnswer) {
+          glyph.textContent = isSpace ? ' ' : targetChar;
+          glyph.className += ' text-rose-300 font-black';
+          underline.className += ' bg-rose-500/60';
+        } else if (i < typed.length) {
+          const userChar = typed[i];
+          const isCorrect = (userChar.toLowerCase() === targetChar.toLowerCase());
+
+          if (isCorrect) {
+            glyph.textContent = isSpace ? ' ' : targetChar;
+            glyph.className += ' text-emerald-400 text-glow-green';
+            underline.className += ' bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]';
+          } else {
+            glyph.textContent = isSpace ? ' ' : userChar;
+            glyph.className += ' text-rose-400 text-glow-red bg-rose-500/20 px-1 rounded';
+            underline.className += ' bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.8)]';
+          }
+        } else if (i === typed.length) {
+          glyph.innerHTML = '&nbsp;';
+          if (isSpace) {
+            underline.className += ' bg-amber-400 animate-pulse';
+          } else {
+            underline.className += ' bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(6,182,212,0.8)]';
+          }
+        } else {
+          glyph.innerHTML = '&nbsp;';
+          underline.className += isSpace ? ' bg-slate-800' : ' bg-slate-700';
+        }
+
+        if (isSpace) {
+          slot.classList.add('mx-1.5', 'sm:mx-2');
+          if (i >= typed.length && !revealAnswer) {
+            underline.className += ' border-b-2 border-dashed border-amber-400/40 bg-transparent';
+          }
+        }
+
+        slot.appendChild(glyph);
+        slot.appendChild(underline);
+        letterSlotsRow.appendChild(slot);
+      }
+    }
+
+    function spawnWord() {
+      if (successAdvanceTimer) {
+        clearTimeout(successAdvanceTimer);
+        successAdvanceTimer = null;
+      }
+
+      if (!state.wordQueue || state.wordQueue.length === 0) {
+        gameOver(true);
+        return;
+      }
+
+      const nextWord = state.wordQueue.shift();
+      state.wordIndex++;
+
+      state.currentWord = nextWord;
+      state.typed = '';
+      state.posY = 10;
+      state.posX = Math.floor(Math.random() * 46) + 27;
+      state.hasPassed40 = false;
+      state.isWordEnding = false;
+      state.isShowingSuccessCard = false;
+
+      vietnameseText.textContent = nextWord.vi || '';
+      ipaBadge.textContent = nextWord.ipa ? `${nextWord.ipa}` : '';
+      if (!nextWord.ipa) {
+        ipaBadge.classList.add('hidden');
+      } else {
+        ipaBadge.classList.remove('hidden');
+      }
+      vietnameseCard.classList.add('hidden');
+      successContextCard.classList.add('hidden');
+      if (exampleCountdownBar) {
+        exampleCountdownBar.classList.remove('countdown-timer-bar');
+      }
+
+      if (reviewBadge) {
+        if (nextWord.isReview) {
+          reviewBadge.classList.remove('hidden');
+        } else {
+          reviewBadge.classList.add('hidden');
+        }
+      }
+
+      wordCapsule.classList.remove('shake', 'border-rose-500', 'glow-green', 'border-emerald-400');
+      wordCapsule.classList.add('border-cyan-400/80', 'glow-cyan');
+
+      renderLetterSlots(false);
+      positionActor();
+      updateHUD();
+
+      speakWord(nextWord.en);
+    }
+
+    function positionActor() {
+      fallingActor.style.top = `${state.posY}px`;
+      fallingActor.style.left = `${state.posX}%`;
+    }
+
+    function gameLoop(now) {
+      if (state.status !== 'playing') return;
+
+      if (!state.lastFrameTime) state.lastFrameTime = now;
+      const deltaTime = (now - state.lastFrameTime) / 1000;
+      state.lastFrameTime = now;
+
+      if (!state.isWordEnding) {
+        const arenaHeight = arena.clientHeight || 500;
+        const duration = { slow: 20.0, medium: 15.0, fast: 10.0 }[selectedSpeed] || 15.0;
+        const pixelsPerSecond = (arenaHeight - 80) / duration;
+        state.posY += pixelsPerSecond * deltaTime;
+
+        if (state.posY >= (arenaHeight * 0.4) && !state.hasPassed40) {
+          state.hasPassed40 = true;
+          vietnameseCard.classList.remove('hidden');
+        }
+
+        const cardHeight = wordCapsule.offsetHeight || 80;
+        if (state.posY >= (arenaHeight - cardHeight - 8)) {
+          handleMissedWord();
+          return;
+        }
+
+        positionActor();
+      }
+
+      state.rafId = requestAnimationFrame(gameLoop);
+    }
+
+    function triggerPopupText(text, xPercent, yPx, isSuccess = true) {
+      const popup = document.createElement('div');
+      popup.className = `score-popup absolute font-mono-code font-black text-sm sm:text-base pointer-events-none z-30 ${
+        isSuccess ? 'text-emerald-400 text-glow-green' : 'text-rose-400 text-glow-red'
+      }`;
+      popup.textContent = text;
+      popup.style.left = `${xPercent}%`;
+      popup.style.top = `${yPx}px`;
+      effectsLayer.appendChild(popup);
+      setTimeout(() => popup.remove(), 850);
+    }
+
+    function handleWordCompleted() {
+      if (state.isWordEnding) return;
+      state.isWordEnding = true;
+      state.isShowingSuccessCard = true;
+
+      sfxWordComplete();
+
+      const arenaHeight = arena.clientHeight || 500;
+      const remainingHeightBonus = Math.max(10, Math.round(((arenaHeight - state.posY) / arenaHeight) * 50));
+      const lengthBonus = state.currentWord.en.length * 15;
+      const comboMultiplier = 1 + (state.combo * 0.25);
+      const earnedPoints = Math.round((lengthBonus + remainingHeightBonus) * comboMultiplier);
+
+      state.score += earnedPoints;
+      state.combo++;
+      if (state.combo > state.maxCombo) state.maxCombo = state.combo;
+      state.correctCount++;
+
+      const isReviewed = state.currentWord.isReview;
+      triggerPopupText(isReviewed ? `+${earnedPoints} Đã thuộc từ!` : `+${earnedPoints} Combo x${state.combo}!`, state.posX, state.posY, true);
+      updateHUD();
+
+      // Điền thông tin chi tiết vào thẻ câu ví dụ
+      successWordText.textContent = state.currentWord.en;
+      successIpaText.textContent = state.currentWord.ipa ? `${state.currentWord.ipa}` : '';
+      successViText.textContent = state.currentWord.vi || '';
+      
+      const sentence = state.currentWord.ex || `I learn the word "${state.currentWord.en}".`;
+      successExampleText.textContent = `"${sentence}"`;
+      
+      vietnameseCard.classList.add('hidden');
+      successContextCard.classList.remove('hidden');
+
+      // Tự động căn vị trí thẻ lên nếu rơi gần sát đáy màn hình để học sinh nhìn rõ
+      const estimatedCardBottom = state.posY + (wordCapsule.offsetHeight || 180);
+      if (estimatedCardBottom > arenaHeight - 40) {
+        state.posY = Math.max(20, arenaHeight - (wordCapsule.offsetHeight || 180) - 40);
+        positionActor();
+      }
+
+      // Kích hoạt thanh đếm thời gian 4.5 giây
+      if (exampleCountdownBar) {
+        exampleCountdownBar.classList.remove('countdown-timer-bar');
+        void exampleCountdownBar.offsetWidth; // trigger reflow
+        exampleCountdownBar.classList.add('countdown-timer-bar');
+      }
+
+      wordCapsule.classList.remove('glow-cyan', 'border-cyan-400/80');
+      wordCapsule.classList.add('glow-green', 'border-emerald-400');
+
+      if (isWeakMode && state.currentWord) {
+        removeWordFromVault(state.currentWord.en);
+      }
+
+      lucide.createIcons();
+
+      // Phát âm cả câu ví dụ ngữ cảnh để học sinh vừa nghe vừa đọc theo
+      if (sentence) {
+        speakWord(sentence);
+      }
+
+      // Tự động chuyển sau 4.5 giây (nếu học sinh không chủ động bấm Enter / phím cách)
+      if (successAdvanceTimer) clearTimeout(successAdvanceTimer);
+      successAdvanceTimer = setTimeout(() => {
+        advanceToNextWord();
+      }, 4500);
+    }
+
+    function advanceToNextWord() {
+      if (successAdvanceTimer) {
+        clearTimeout(successAdvanceTimer);
+        successAdvanceTimer = null;
+      }
+      state.isShowingSuccessCard = false;
+      if (state.wordQueue.length === 0) {
+        gameOver(true);
+      } else {
+        spawnWord();
+      }
+    }
+
+    if (btnNextWordInstant) {
+      btnNextWordInstant.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (state.isShowingSuccessCard) {
+          advanceToNextWord();
+        }
+      });
+    }
+
+    function handleMissedWord() {
+      if (state.isWordEnding) return;
+      state.isWordEnding = true;
+
+      sfxHeartLost();
+      state.lives--;
+      state.combo = 0;
+      state.missedCount++;
+
+      renderLetterSlots(true);
+      vietnameseCard.classList.remove('hidden');
+      wordCapsule.classList.remove('glow-cyan', 'border-cyan-400/80');
+      wordCapsule.classList.add('border-rose-500');
+
+      triggerPopupText(`Từ đúng: ${state.currentWord.en}`, state.posX, state.posY - 25, false);
+
+      recordWordMissedInVault(state.currentWord);
+
+      const missedWordObj = {
+        en: state.currentWord.en,
+        vi: state.currentWord.vi,
+        ipa: state.currentWord.ipa,
+        ex: state.currentWord.ex,
+        isReview: true
+      };
+
+      if (!state.wordQueue || state.wordQueue.length === 0) {
+        state.wordQueue = [missedWordObj];
+      } else {
+        const insertIndex = Math.min(state.wordQueue.length, Math.floor(Math.random() * 2) + 2);
+        state.wordQueue.splice(insertIndex, 0, missedWordObj);
+      }
+
+      updateHUD();
+
+      setTimeout(() => {
+        if (state.lives <= 0) {
+          gameOver(false);
+        } else {
+          spawnWord();
+          state.lastFrameTime = performance.now();
+          state.rafId = requestAnimationFrame(gameLoop);
+        }
+      }, 1400);
+    }
+
+    function gameOver(isVictory = false) {
+      state.status = 'gameover';
+      if (state.rafId) cancelAnimationFrame(state.rafId);
+
+      const finalAcc = state.keystrokesTotal > 0 
+        ? Math.round((state.keystrokesCorrect / state.keystrokesTotal) * 100) 
+        : 100;
+
+      let unitLabel = "Unit 1";
+      if (isWeakMode) {
+        unitLabel = "Sổ Từ Hay Sai";
+      } else if (isCustomMode) {
+        unitLabel = "Tùy chỉnh";
+      } else if (selectedUnitId === 'all') {
+        unitLabel = "Tổng hợp 12 Unit";
+      } else {
+        const u = GRADE_6_UNITS.find(item => item.id === selectedUnitId);
+        if (u) unitLabel = u.short;
+      }
+
+      const iconBox = document.getElementById('gameover-icon-box');
+      const iconEl = document.getElementById('gameover-icon');
+      const titleEl = document.getElementById('gameover-title');
+      const subTitleEl = document.getElementById('gameover-unit-subtitle');
+
+      if (isVictory) {
+        iconBox.className = 'w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3 animate-bounce shadow-lg shadow-emerald-500/30';
+        iconEl.setAttribute('data-lucide', 'award');
+        titleEl.textContent = 'Xuất Sắc! Thuộc Toàn Bộ Từ!';
+        titleEl.className = 'text-2xl font-black text-emerald-300 mb-1';
+        subTitleEl.textContent = `Bài học: ${unitLabel} · Bạn đã vượt qua tất cả các từ và sửa toàn bộ lỗi sai!`;
+      } else {
+        iconBox.className = 'w-16 h-16 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-3 animate-bounce';
+        iconEl.setAttribute('data-lucide', 'heart-crack');
+        titleEl.textContent = 'Hoàn Thành Lượt Chơi!';
+        titleEl.className = 'text-2xl font-black text-white mb-1';
+        subTitleEl.textContent = `Bài học: ${unitLabel} · Hãy thử lại để rèn luyện những từ còn sót nhé!`;
+      }
+      lucide.createIcons();
+
+      document.getElementById('stat-final-score').textContent = state.score;
+      document.getElementById('stat-final-combo').textContent = `x${state.maxCombo}`;
+      document.getElementById('stat-final-correct').textContent = `${state.correctCount} từ`;
+      document.getElementById('stat-final-accuracy').textContent = `${finalAcc}%`;
+
+      modalGameOver.classList.remove('hidden');
+
+      const sessionRecord = {
+        unitName: unitLabel,
+        score: state.score,
+        maxCombo: state.maxCombo,
+        correctCount: state.correctCount,
+        missedCount: state.missedCount,
+        accuracy: finalAcc,
+        speed: selectedSpeed,
+        isVictory: isVictory,
+        dateFormatted: new Intl.DateTimeFormat('vi-VN', {
+          hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit'
+        }).format(new Date())
+      };
+
+      if (window.saveResult) {
+        window.saveResult(sessionRecord);
+      }
+    }
+
+    window.renderHistoryUI = function() {
+      const tbody = document.getElementById('history-table-body');
+      const emptyState = document.getElementById('history-empty-state');
+      const totalSessionsEl = document.getElementById('hist-total-sessions');
+      const highScoreEl = document.getElementById('hist-high-score');
+      const totalWordsEl = document.getElementById('hist-total-words');
+
+      const records = window.inMemoryHistory || [];
+      totalSessionsEl.textContent = records.length;
+
+      let highScore = 0;
+      let totalWords = 0;
+      records.forEach(r => {
+        if ((r.score || 0) > highScore) highScore = r.score;
+        totalWords += (r.correctCount || 0);
+      });
+      highScoreEl.textContent = highScore;
+      totalWordsEl.textContent = totalWords;
+
+      if (records.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      tbody.innerHTML = records.map(r => `
+        <tr class="hover:bg-slate-900/60 transition">
+          <td class="p-3 text-slate-400 text-[11px]">${r.dateFormatted || '--'}</td>
+          <td class="p-3 font-semibold text-cyan-300 font-sans">${r.unitName || 'Lớp 6'}</td>
+          <td class="p-3 text-right font-black text-emerald-400">${r.score || 0}</td>
+          <td class="p-3 text-center">
+            <span class="text-emerald-400">${r.correctCount || 0}</span> / 
+            <span class="text-rose-400">${r.missedCount || 0}</span>
+          </td>
+          <td class="p-3 text-right">
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold ${
+              (r.accuracy || 0) >= 90 ? 'bg-emerald-500/20 text-emerald-300' :
+              (r.accuracy || 0) >= 70 ? 'bg-amber-500/20 text-amber-300' :
+              'bg-rose-500/20 text-rose-300'
+            }">${r.accuracy || 0}%</span>
+          </td>
+        </tr>
+      `).join('');
+    };
+
+    function renderWeakVaultUI() {
+      const vault = window.weakWordsVault || [];
+      updateWeakCountersUI();
+
+      if (vault.length === 0) {
+        weakWordsList.innerHTML = '';
+        weakVaultEmptyState.classList.remove('hidden');
+        return;
+      }
+
+      weakVaultEmptyState.classList.add('hidden');
+      weakWordsList.innerHTML = vault.map(w => `
+        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-start justify-between gap-3 hover:border-slate-700 transition">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="font-bold text-sm text-cyan-300 font-sans tracking-wide">${w.en}</span>
+              ${w.ipa ? `<span class="text-[11px] font-mono-code text-indigo-300 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">${w.ipa}</span>` : ''}
+              <span class="text-xs text-amber-300 font-semibold">• ${w.vi}</span>
+            </div>
+            ${w.ex ? `<p class="text-[11px] text-slate-400 italic mt-1 bg-slate-950/60 p-2 rounded-lg border border-slate-800/80">"${w.ex}"</p>` : ''}
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <span class="px-2 py-1 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30 font-mono-code text-[11px] font-bold" title="Số lần gõ sai">
+              Sai: ${w.missCount || 1}
+            </span>
+            <button onclick="removeWordFromVault('${w.en}')" class="p-1 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition" title="Xóa khỏi sổ tay">
+              <i data-lucide="trash" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // Modal Tabs Navigation Logic
+    tabBtnRecords.addEventListener('click', () => {
+      tabBtnRecords.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition flex items-center gap-1.5';
+      tabBtnWeakVault.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5';
+      tabContentRecords.classList.remove('hidden');
+      tabContentWeakVault.classList.add('hidden');
+    });
+
+    tabBtnWeakVault.addEventListener('click', () => {
+      tabBtnWeakVault.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white transition flex items-center gap-1.5';
+      tabBtnRecords.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition flex items-center gap-1.5';
+      tabContentRecords.classList.add('hidden');
+      tabContentWeakVault.classList.remove('hidden');
+      renderWeakVaultUI();
+    });
+
+    btnHeaderWeakVault.addEventListener('click', () => {
+      tabBtnWeakVault.click();
+      modalHistory.classList.remove('hidden');
+    });
+
+    if (btnShooterVoiceRepeat) {
+      btnShooterVoiceRepeat.addEventListener('click', () => {
+        if (shooterState.currentTargetId) {
+          const t = shooterState.activeTargets.find(item => item.id === shooterState.currentTargetId);
+          if (t) speakWord(t.wordObj.en);
+        }
+      });
+    }
+
+    /* ========================================================
+       SHOOTER GAME ENGINE IMPLEMENTATION
+       ======================================================== */
+    let shooterTargetIdCounter = 1;
+
+    function resizeShooterCanvas() {
+      if (!shooterCanvas || !shooterArena) return;
+      shooterCanvas.width = shooterArena.clientWidth;
+      shooterCanvas.height = shooterArena.clientHeight;
+    }
+
+    function initShooterGame() {
+      resizeShooterCanvas();
+      shooterState.activeTargets = [];
+      shooterState.currentTargetId = null;
+      shooterState.targetTyped = '';
+      shooterState.lasers = [];
+      shooterState.particles = [];
+      shooterState.floatingTexts = [];
+      shooterState.nextSpawnTime = performance.now() + 500;
+      shooterState.currentLevel = 1;
+      shooterState.speedMultiplier = 1.0;
+      shooterTargetsLayer.innerHTML = '';
+      updateShooterHUD();
+    }
+
+    function updateShooterHUD() {
+      updateHUD();
+      shooterKilledCount.textContent = state.correctCount;
+      shooterMissedCount.textContent = `${state.missedCount} / 5`;
+      
+      const pct = Math.max(0, Math.round((state.lives / MAX_LIVES) * 100));
+      shooterBaseStatus.textContent = `Lá chắn ${pct}% (${state.lives}/${MAX_LIVES})`;
+      if (state.lives <= 2) {
+        shooterBaseStatus.className = 'text-[10px] font-mono-code font-bold text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-500/50 animate-pulse';
+      } else {
+        shooterBaseStatus.className = 'text-[10px] font-mono-code font-bold text-emerald-400 bg-slate-950/80 px-2 py-0.5 rounded border border-emerald-500/30';
+      }
+
+      // Giữ tốc độ ổn định xuyên suốt, không tự động tăng tốc
+      shooterState.speedMultiplier = 1.0;
+      shooterLevelText.textContent = 'Tốc Độ Ổn Định · Luyện Tập Chuẩn Xác';
+      shooterSpeedMultiplier.textContent = '1.0x';
+      shooterLevelText.className = 'text-xs font-black uppercase tracking-wider text-cyan-300';
+      shooterNextLevelPts.textContent = 'Rèn luyện từ vựng vững chắc';
+
+      // Active target text
+      if (shooterState.currentTargetId) {
+        const cur = shooterState.activeTargets.find(t => t.id === shooterState.currentTargetId && !t.isCompleted);
+        if (cur) {
+          shooterActiveTargetText.textContent = `[ ${cur.wordObj.en.toUpperCase()} ]`;
+          shooterActiveTargetText.className = 'font-extrabold text-sm font-mono-code text-emerald-300 bg-slate-950 px-2.5 py-0.5 rounded-lg border border-emerald-500/50';
+        } else {
+          shooterActiveTargetText.textContent = '[ Chưa khóa mục tiêu ]';
+          shooterActiveTargetText.className = 'font-extrabold text-sm font-mono-code text-cyan-300 bg-slate-950 px-2.5 py-0.5 rounded-lg border border-cyan-500/40';
+        }
+      } else {
+        shooterActiveTargetText.textContent = '[ Chưa khóa mục tiêu ]';
+        shooterActiveTargetText.className = 'font-extrabold text-sm font-mono-code text-cyan-300 bg-slate-950 px-2.5 py-0.5 rounded-lg border border-cyan-500/40';
+      }
+    }
+
+    function spawnShooterTarget() {
+      if (!state.wordQueue || state.wordQueue.length === 0) {
+        if (shooterState.activeTargets.length === 0) {
+          gameOver(true);
+        }
+        return;
+      }
+
+      // Số từ cùng lúc trên màn hình duy trì ở mức tối đa 2 từ để học sinh dễ thở
+      const uncompletedTargets = shooterState.activeTargets.filter(t => !t.isCompleted);
+      if (uncompletedTargets.length >= 2) return;
+
+      const nextWord = state.wordQueue.shift();
+      const arenaWidth = shooterArena.clientWidth || 800;
+      
+      // Calculate random X position avoiding overlapping edges
+      const targetWidth = 180;
+      const posX = Math.floor(Math.random() * (arenaWidth - targetWidth - 60)) + 30;
+
+      // Bonus word chance: 20% chance to be a Heal / Shield Medkit Word
+      const isHealWord = (Math.random() < 0.22 && state.lives < MAX_LIVES);
+
+      const target = {
+        id: shooterTargetIdCounter++,
+        wordObj: nextWord,
+        x: posX,
+        y: -50,
+        isHealWord: isHealWord,
+        isCompleted: false,
+        domElement: null
+      };
+
+      // Create target DOM element
+      const el = document.createElement('div');
+      el.id = `target-${target.id}`;
+      el.className = `absolute pointer-events-none transition-all duration-75 flex flex-col items-center z-10 will-change-transform ${
+        isHealWord ? 'drop-shadow-[0_0_15px_rgba(245,158,11,0.6)]' : 'drop-shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+      }`;
+      el.style.left = `${target.x}px`;
+      el.style.top = `${target.y}px`;
+
+      el.innerHTML = `
+        <div class="target-capsule flex flex-col items-center bg-slate-900/95 backdrop-blur-md px-3.5 py-2 rounded-xl border-2 transition-all ${
+          isHealWord 
+            ? 'border-amber-400 bg-gradient-to-b from-amber-950/80 to-slate-900 ring-2 ring-amber-400/50' 
+            : 'border-cyan-500/70 bg-slate-900/90'
+        }">
+          ${isHealWord ? `
+            <div class="px-2 py-0.2 mb-1 rounded-full bg-amber-500/30 text-amber-300 text-[9px] font-extrabold flex items-center gap-1 border border-amber-400/60 animate-pulse">
+              <i data-lucide="shield-plus" class="w-2.5 h-2.5 text-amber-300"></i> +1 MẠNG THƯỞNG
+            </div>
+          ` : ''}
+          ${nextWord.isReview ? `
+            <div class="px-1.5 py-0.2 mb-1 rounded bg-rose-500/20 text-rose-300 text-[9px] font-bold border border-rose-500/30 flex items-center gap-0.5">
+              <i data-lucide="rotate-ccw" class="w-2.5 h-2.5 text-rose-400"></i> Ôn Lại
+            </div>
+          ` : ''}
+          <!-- Word Letters Row -->
+          <div class="letters-row font-mono-code text-base sm:text-lg font-black tracking-wider flex items-center gap-0.5">
+            ${renderShooterLettersHTML(nextWord.en, '')}
+          </div>
+          <!-- Revealed Vietnamese hint -->
+          <div class="vi-hint hidden mt-1 text-[11px] font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-400/30">
+            ${nextWord.vi}
+          </div>
+        </div>
+      `;
+
+      shooterTargetsLayer.appendChild(el);
+      target.domElement = el;
+      shooterState.activeTargets.push(target);
+      lucide.createIcons();
+
+      // Ở chế độ bắn súng: Không phát âm khi từ vừa xuất hiện
+      // Chỉ phát âm khi học sinh gõ đúng hoàn thành từ (trong handleShooterWordCompleted)
+    }
+
+    function renderShooterLettersHTML(fullWord, typedPortion) {
+      let html = '';
+      for (let i = 0; i < fullWord.length; i++) {
+        const char = fullWord[i];
+        const isSpace = (char === ' ');
+        if (i < typedPortion.length) {
+          // Correctly typed by laser
+          html += `<span class="text-emerald-400 text-glow-green">${isSpace ? '&nbsp;' : char}</span>`;
+        } else if (i === typedPortion.length && typedPortion.length > 0) {
+          // Current next character
+          html += `<span class="text-cyan-300 underline decoration-cyan-400 decoration-2">${isSpace ? '&nbsp;' : char}</span>`;
+        } else {
+          // Untyped character
+          html += `<span class="text-slate-400">${isSpace ? '&nbsp;' : char}</span>`;
+        }
+      }
+      return html;
+    }
+
+    function fireLaserAtTarget(target) {
+      if (!target || !target.domElement) return;
+      sfxLaserFire();
+
+      const arenaWidth = shooterArena.clientWidth;
+      const arenaHeight = shooterArena.clientHeight;
+      const startX = arenaWidth / 2;
+      const startY = arenaHeight - 35;
+
+      const targetRect = target.domElement.getBoundingClientRect();
+      const arenaRect = shooterArena.getBoundingClientRect();
+      const endX = targetRect.left - arenaRect.left + (targetRect.width / 2);
+      const endY = targetRect.top - arenaRect.top + (targetRect.height / 2);
+
+      // Rotate cannon barrel toward target
+      const angleRad = Math.atan2(endX - startX, startY - endY);
+      const angleDeg = angleRad * (180 / Math.PI);
+      cannonBarrel.style.transform = `rotate(${angleDeg}deg)`;
+
+      // Add laser projectile
+      shooterState.lasers.push({
+        x: startX,
+        y: startY,
+        startX: startX,
+        startY: startY,
+        endX: endX,
+        endY: endY,
+        progress: 0,
+        speed: 4.5,
+        targetId: target.id
+      });
+    }
+
+    function createTargetExplosion(x, y, isHeal = false) {
+      sfxTargetExplosion();
+      const count = 24;
+      const colors = isHeal 
+        ? ['#f59e0b', '#fbbf24', '#fef08a', '#10b981'] 
+        : ['#06b6d4', '#22c55e', '#38bdf8', '#a855f7'];
+
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.2);
+        const speed = Math.random() * 5 + 2;
+        shooterState.particles.push({
+          x: x,
+          y: y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: Math.random() * 3 + 2,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1.0,
+          decay: Math.random() * 0.03 + 0.02
+        });
+      }
+    }
+
+    function shooterGameLoop(now) {
+      if (state.status !== 'playing' || currentGameMode !== 'shooter') return;
+
+      const ctx = shooterCanvas.getContext('2d');
+      ctx.clearRect(0, 0, shooterCanvas.width, shooterCanvas.height);
+
+      const arenaHeight = shooterArena.clientHeight || 500;
+      const arenaWidth = shooterArena.clientWidth || 800;
+
+      // 1. Spawning targets timer - giãn cách rộng hơn (4.2s - 5.5s)
+      if (now >= shooterState.nextSpawnTime) {
+        spawnShooterTarget();
+        const interval = { slow: 5500, medium: 4200, fast: 3200 }[selectedSpeed] || 4200;
+        shooterState.nextSpawnTime = now + interval;
+      }
+
+      // 2. Move Active Targets Down - Giảm tốc độ rơi rõ rệt (30s, 22s, 16s)
+      const baseFallDuration = { slow: 30.0, medium: 22.0, fast: 16.0 }[selectedSpeed] || 22.0;
+      const fallSpeed = ((arenaHeight - 90) / baseFallDuration);
+      const deltaTime = (now - (state.lastFrameTime || now)) / 1000;
+      state.lastFrameTime = now;
+
+      for (let i = shooterState.activeTargets.length - 1; i >= 0; i--) {
+        const t = shooterState.activeTargets[i];
+
+        // Nếu từ đã được gõ đúng: DỪNG RƠI để học sinh đọc nghĩa tiếng Việt
+        if (t.isCompleted) {
+          continue;
+        }
+
+        t.y += fallSpeed * deltaTime;
+
+        // Reveal Vietnamese meaning when past 40% height
+        if (t.y >= (arenaHeight * 0.4)) {
+          const viHint = t.domElement.querySelector('.vi-hint');
+          if (viHint && viHint.classList.contains('hidden')) {
+            viHint.classList.remove('hidden');
+          }
+        }
+
+        // Bottom defense perimeter hit (Missed word reaching ground)
+        if (t.y >= (arenaHeight - 110)) {
+          handleShooterMissedTarget(t, i);
+          continue;
+        }
+
+        // Update DOM element position
+        t.domElement.style.top = `${t.y}px`;
+      }
+
+      // 3. Update & Draw Laser Beams
+      for (let i = shooterState.lasers.length - 1; i >= 0; i--) {
+        const l = shooterState.lasers[i];
+        l.progress += l.speed * deltaTime;
+
+        const curX = l.startX + (l.endX - l.startX) * Math.min(1, l.progress);
+        const curY = l.startY + (l.endY - l.startY) * Math.min(1, l.progress);
+
+        ctx.save();
+        ctx.strokeStyle = '#38bdf8';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#06b6d4';
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.moveTo(l.startX, l.startY);
+        ctx.lineTo(curX, curY);
+        ctx.stroke();
+        ctx.restore();
+
+        if (l.progress >= 1.0) {
+          shooterState.lasers.splice(i, 1);
+        }
+      }
+
+      // 4. Update & Draw Particles
+      for (let i = shooterState.particles.length - 1; i >= 0; i--) {
+        const p = shooterState.particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          shooterState.particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      state.rafId = requestAnimationFrame(shooterGameLoop);
+    }
+
+    function handleShooterMissedTarget(target, index) {
+      sfxHeartLost();
+      state.lives--;
+      state.combo = 0;
+      state.missedCount++;
+
+      // Explosion on the defense barrier
+      createTargetExplosion(target.x + 80, target.y + 20, false);
+      triggerPopupText(`💥 Mất 1 mạng! Từ đúng: ${target.wordObj.en}`, (target.x / shooterArena.clientWidth) * 100, target.y - 20, false);
+
+      // Record in weak vault
+      recordWordMissedInVault(target.wordObj);
+
+      // Re-queue the missed word so it spawns again (Spaced Repetition)
+      const repeatWordObj = {
+        ...target.wordObj,
+        isReview: true
+      };
+      if (!state.wordQueue) state.wordQueue = [];
+      const insertIdx = Math.min(state.wordQueue.length, Math.floor(Math.random() * 2) + 2);
+      state.wordQueue.splice(insertIdx, 0, repeatWordObj);
+
+      // Remove from active targets
+      if (target.domElement) target.domElement.remove();
+      shooterState.activeTargets.splice(index, 1);
+
+      // If this was the locked target, clear lock
+      if (shooterState.currentTargetId === target.id) {
+        shooterState.currentTargetId = null;
+        shooterState.targetTyped = '';
+      }
+
+      updateShooterHUD();
+
+      // Check if 5 words missed -> Game Over
+      if (state.lives <= 0) {
+        gameOver(false);
+      }
+    }
+
+    function handleShooterWordCompleted(target) {
+      if (target.isCompleted) return;
+      target.isCompleted = true; // Đánh dấu đã hoàn thành, dừng rơi ngay lập tức
+
+      sfxWordComplete();
+
+      const arenaRect = shooterArena.getBoundingClientRect();
+      const targetRect = target.domElement.getBoundingClientRect();
+      const centerX = targetRect.left - arenaRect.left + (targetRect.width / 2);
+      const centerY = targetRect.top - arenaRect.top + (targetRect.height / 2);
+
+      // Score calculation
+      const lengthBonus = target.wordObj.en.length * 15;
+      const heightBonus = Math.max(10, Math.round(((shooterArena.clientHeight - target.y) / shooterArena.clientHeight) * 40));
+      const comboMult = 1 + (state.combo * 0.25);
+      const earned = Math.round((lengthBonus + heightBonus) * comboMult);
+
+      state.score += earned;
+      state.combo++;
+      if (state.combo > state.maxCombo) state.maxCombo = state.combo;
+      state.correctCount++;
+
+      // Cập nhật giao diện mục tiêu: Phát sáng viền xanh, hiển thị rõ nghĩa tiếng Việt và IPA
+      const capsule = target.domElement.querySelector('.target-capsule');
+      capsule.className = 'target-capsule flex flex-col items-center bg-slate-900/95 backdrop-blur-md px-4 py-2.5 rounded-xl border-2 border-emerald-400 ring-4 ring-emerald-400/40 shadow-2xl transition-all';
+      
+      const lettersRow = target.domElement.querySelector('.letters-row');
+      lettersRow.innerHTML = `<span class="text-emerald-300 font-black tracking-wider text-lg sm:text-xl text-glow-green">${target.wordObj.en}</span>`;
+
+      // Tạo thẻ nghĩa tiếng Việt nổi bật ngay bên dưới từ đã gõ đúng
+      let viHint = target.domElement.querySelector('.vi-hint');
+      if (!viHint) {
+        viHint = document.createElement('div');
+        viHint.className = 'vi-hint';
+        capsule.appendChild(viHint);
+      }
+      viHint.className = 'vi-hint mt-1.5 px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow-lg flex items-center gap-1.5 animate-pop-in';
+      viHint.innerHTML = `
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-800"></i>
+        <span>${target.wordObj.vi}</span>
+        ${target.wordObj.ipa ? `<span class="text-[11px] font-mono-code font-bold opacity-80 ml-1">(${target.wordObj.ipa})</span>` : ''}
+      `;
+      lucide.createIcons();
+
+      // Heal bonus word logic
+      if (target.isHealWord) {
+        if (state.lives < MAX_LIVES) {
+          state.lives++;
+          sfxShieldHeal();
+          triggerPopupText(`💚 +1 MẠNG HỒI PHỤC!`, (centerX / shooterArena.clientWidth) * 100, centerY - 35, true);
+        } else {
+          state.score += 100;
+          triggerPopupText(`⭐ THƯỞNG ĐIỂM +100đ!`, (centerX / shooterArena.clientWidth) * 100, centerY - 35, true);
+        }
+      } else {
+        triggerPopupText(`+${earned}đ`, (centerX / shooterArena.clientWidth) * 100, centerY - 35, true);
+      }
+
+      // Phát âm to, chuẩn xác từ vựng
+      speakWord(target.wordObj.en);
+
+      // Giải phóng mục tiêu đang khóa để học sinh có thể gõ từ kế tiếp
+      shooterState.currentTargetId = null;
+      shooterState.targetTyped = '';
+
+      // If in weak mode, remove from vault
+      if (isWeakMode) {
+        removeWordFromVault(target.wordObj.en);
+      }
+
+      updateShooterHUD();
+
+      // Giữ hiển thị nghĩa tiếng Việt trong 1.8 giây, sau đó mới nổ và biến mất
+      setTimeout(() => {
+        if (!target.domElement) return;
+        createTargetExplosion(centerX, centerY, target.isHealWord);
+        target.domElement.remove();
+
+        const idx = shooterState.activeTargets.findIndex(t => t.id === target.id);
+        if (idx !== -1) shooterState.activeTargets.splice(idx, 1);
+
+        updateShooterHUD();
+
+        // Check win condition
+        if ((!state.wordQueue || state.wordQueue.length === 0) && shooterState.activeTargets.length === 0) {
+          gameOver(true);
+        }
+      }, 1800);
+    }
+
+    /* Key listener handling both Classic and Shooter Modes */
+    window.addEventListener('keydown', (e) => {
+      // Classic Mode Success Card Advance
+      if (currentGameMode === 'classic' && state.isShowingSuccessCard) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          advanceToNextWord();
+          return;
+        }
+      }
+
+      // Tab key pronunciation repeat
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        if (state.status === 'playing') {
+          if (currentGameMode === 'shooter') {
+            if (shooterState.currentTargetId) {
+              const cur = shooterState.activeTargets.find(t => t.id === shooterState.currentTargetId);
+              if (cur) speakWord(cur.wordObj.en);
+            } else if (shooterState.activeTargets.length > 0) {
+              speakWord(shooterState.activeTargets[0].wordObj.en);
+            }
+          } else {
+            if (state.currentWord) {
+              if (state.isShowingSuccessCard && state.currentWord.ex) {
+                speakWord(state.currentWord.ex);
+              } else {
+                speakWord(state.currentWord.en);
+              }
+              wordCapsule.classList.add('ring-2', 'ring-cyan-300');
+              setTimeout(() => wordCapsule.classList.remove('ring-2', 'ring-cyan-300'), 250);
+            }
+          }
+        }
+        return;
+      }
+
+      if (state.status !== 'playing') return;
+
+      /* ==================== SHOOTER MODE KEY HANDLER ==================== */
+      if (currentGameMode === 'shooter') {
+        if (e.key === 'Backspace') {
+          e.preventDefault();
+          if (shooterState.targetTyped.length > 0) {
+            shooterState.targetTyped = shooterState.targetTyped.slice(0, -1);
+            if (shooterState.targetTyped.length === 0) {
+              // Unlock target if all deleted
+              const cur = shooterState.activeTargets.find(t => t.id === shooterState.currentTargetId && !t.isCompleted);
+              if (cur) {
+                const capsule = cur.domElement.querySelector('.target-capsule');
+                capsule.classList.remove('border-emerald-400', 'ring-2', 'ring-emerald-400');
+                const row = cur.domElement.querySelector('.letters-row');
+                row.innerHTML = renderShooterLettersHTML(cur.wordObj.en, '');
+              }
+              shooterState.currentTargetId = null;
+            } else {
+              const cur = shooterState.activeTargets.find(t => t.id === shooterState.currentTargetId && !t.isCompleted);
+              if (cur) {
+                const row = cur.domElement.querySelector('.letters-row');
+                row.innerHTML = renderShooterLettersHTML(cur.wordObj.en, shooterState.targetTyped);
+              }
+            }
+            updateShooterHUD();
+          }
+          return;
+        }
+
+        if (e.key.length !== 1) return;
+        const charInput = e.key.toLowerCase();
+        state.keystrokesTotal++;
+
+        // Case A: No target locked yet -> Find target starting with this letter (bỏ qua các từ đã completed)
+        if (!shooterState.currentTargetId) {
+          // Find matching target among active ones
+          const matchedTarget = shooterState.activeTargets.find(t => {
+            return !t.isCompleted && t.wordObj.en.toLowerCase().startsWith(charInput);
+          });
+
+          if (matchedTarget) {
+            shooterState.currentTargetId = matchedTarget.id;
+            shooterState.targetTyped = charInput;
+            state.keystrokesCorrect++;
+
+            // Highlight target capsule
+            const capsule = matchedTarget.domElement.querySelector('.target-capsule');
+            capsule.classList.add('border-emerald-400', 'ring-2', 'ring-emerald-400');
+            const row = matchedTarget.domElement.querySelector('.letters-row');
+            row.innerHTML = renderShooterLettersHTML(matchedTarget.wordObj.en, shooterState.targetTyped);
+
+            fireLaserAtTarget(matchedTarget);
+
+            if (shooterState.targetTyped.length === matchedTarget.wordObj.en.length) {
+              handleShooterWordCompleted(matchedTarget);
+            }
+          } else {
+            sfxKeyWrong();
+          }
+          updateShooterHUD();
+          return;
+        }
+
+        // Case B: A target is already locked
+        const target = shooterState.activeTargets.find(t => t.id === shooterState.currentTargetId && !t.isCompleted);
+        if (!target) {
+          shooterState.currentTargetId = null;
+          shooterState.targetTyped = '';
+          return;
+        }
+
+        const nextExpectedChar = target.wordObj.en[shooterState.targetTyped.length];
+        if (charInput === nextExpectedChar.toLowerCase()) {
+          state.keystrokesCorrect++;
+          shooterState.targetTyped += e.key;
+
+          const row = target.domElement.querySelector('.letters-row');
+          row.innerHTML = renderShooterLettersHTML(target.wordObj.en, shooterState.targetTyped);
+
+          fireLaserAtTarget(target);
+
+          if (shooterState.targetTyped.length === target.wordObj.en.length) {
+            handleShooterWordCompleted(target);
+          }
+        } else {
+          sfxKeyWrong();
+          const capsule = target.domElement.querySelector('.target-capsule');
+          capsule.classList.add('shake');
+          setTimeout(() => capsule.classList.remove('shake'), 300);
+        }
+        updateShooterHUD();
+        return;
+      }
+
+      /* ==================== CLASSIC MODE KEY HANDLER ==================== */
+      if (!state.currentWord || state.isWordEnding) return;
+
+      const target = state.currentWord.en;
+      const targetLen = target.length;
+
+      if (e.key === 'Backspace') {
+        e.preventDefault();
+        if (state.typed.length > 0) {
+          state.typed = state.typed.slice(0, -1);
+          wordCapsule.classList.remove('shake');
+          renderLetterSlots(false);
+        }
+        return;
+      }
+
+      if (e.key.length !== 1) return;
+
+      const inputChar = e.key;
+      state.keystrokesTotal++;
+
+      if (state.typed.length >= targetLen) return;
+
+      const nextExpected = target[state.typed.length];
+      const isMatch = (inputChar.toLowerCase() === nextExpected.toLowerCase());
+
+      if (isMatch) {
+        state.keystrokesCorrect++;
+        sfxKeyCorrect();
+        state.typed += inputChar;
+        renderLetterSlots(false);
+
+        if (state.typed.length === targetLen) {
+          if (state.typed.toLowerCase() === target.toLowerCase()) {
+            handleWordCompleted();
+          }
+        }
+      } else {
+        sfxKeyWrong();
+        state.typed += inputChar;
+        renderLetterSlots(false);
+
+        wordCapsule.classList.remove('shake');
+        void wordCapsule.offsetWidth;
+        wordCapsule.classList.add('shake');
+      }
+
+      updateHUD();
+    });
+
+    function startGame() {
+      initAudio();
+      initSpeechVoices();
+
+      updateCurrentWordList();
+      if (currentWordList.length === 0) return;
+
+      state.wordQueue = shuffleArray(currentWordList);
+
+      state.status = 'playing';
+      state.score = 0;
+      state.combo = 0;
+      state.maxCombo = 0;
+      state.lives = MAX_LIVES;
+      state.correctCount = 0;
+      state.missedCount = 0;
+      state.keystrokesTotal = 0;
+      state.keystrokesCorrect = 0;
+      state.wordIndex = 0;
+
+      viewMenu.classList.add('hidden');
+      modalPause.classList.add('hidden');
+      modalGameOver.classList.add('hidden');
+      modalHistory.classList.add('hidden');
+      hudStatsGroup.classList.remove('hidden');
+
+      if (currentGameMode === 'shooter') {
+        viewGame.classList.add('hidden');
+        viewShooter.classList.remove('hidden');
+        initShooterGame();
+        state.lastFrameTime = performance.now();
+        state.rafId = requestAnimationFrame(shooterGameLoop);
+      } else {
+        viewShooter.classList.add('hidden');
+        viewGame.classList.remove('hidden');
+        updateHUD();
+        spawnWord();
+        state.lastFrameTime = performance.now();
+        state.rafId = requestAnimationFrame(gameLoop);
+      }
+    }
+
+    function returnToMenu() {
+      if (state.rafId) cancelAnimationFrame(state.rafId);
+      state.status = 'idle';
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+      viewMenu.classList.remove('hidden');
+      viewGame.classList.add('hidden');
+      viewShooter.classList.add('hidden');
+      hudStatsGroup.classList.add('hidden');
+      modalPause.classList.add('hidden');
+      modalGameOver.classList.add('hidden');
+      modalHistory.classList.add('hidden');
+    }
+
+    function togglePauseGame() {
+      if (state.status === 'playing') {
+        state.status = 'paused';
+        if (state.rafId) cancelAnimationFrame(state.rafId);
+        modalPause.classList.remove('hidden');
+      } else if (state.status === 'paused') {
+        state.status = 'playing';
+        modalPause.classList.add('hidden');
+        state.lastFrameTime = performance.now();
+        if (currentGameMode === 'shooter') {
+          state.rafId = requestAnimationFrame(shooterGameLoop);
+        } else {
+          state.rafId = requestAnimationFrame(gameLoop);
+        }
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      if (currentGameMode === 'shooter') {
+        resizeShooterCanvas();
+      }
+    });
+
+    btnStart.addEventListener('click', startGame);
+    btnTogglePause.addEventListener('click', togglePauseGame);
+    btnResume.addEventListener('click', togglePauseGame);
+    btnOpenSettings.addEventListener('click', returnToMenu);
+    btnQuitToMenu.addEventListener('click', returnToMenu);
+    btnReplay.addEventListener('click', startGame);
+    btnGameOverSettings.addEventListener('click', returnToMenu);
+
+    btnShowHistory.addEventListener('click', () => {
+      window.renderHistoryUI();
+      modalHistory.classList.remove('hidden');
+    });
+    btnGameOverViewHistory.addEventListener('click', () => {
+      window.renderHistoryUI();
+      modalHistory.classList.remove('hidden');
+    });
+    btnCloseHistory.addEventListener('click', () => modalHistory.classList.add('hidden'));
+    btnCloseHistoryFooter.addEventListener('click', () => modalHistory.classList.add('hidden'));
+
+    if (btnClearHistory) {
+      btnClearHistory.addEventListener('click', () => {
+        clearAllBrowserHistory();
+      });
+    }
+
+    window.addEventListener('load', async () => {
+      renderUnitButtons();
+      updateCurrentWordList();
+      
+      const savedRecords = await loadSavedHistoryFromBrowser();
+      window.inMemoryHistory = savedRecords;
+      window.renderHistoryUI();
+
+      const savedWeakWords = await loadWeakWordsFromBrowser();
+      window.weakWordsVault = savedWeakWords;
+      renderWeakVaultUI();
+
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
